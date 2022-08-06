@@ -1,3 +1,5 @@
+signal = 0
+
 # ========================================
 # BASIC
 # ========================================
@@ -16,11 +18,6 @@ basic.forever(on_forever)
 # ========================================
 
 def handle_street_sign(sign: number):
-    # Sign Code
-    # 0: stop
-    # 1: right
-    # 2: left
-    # 3: back
     basic.show_icon(IconNames.ASLEEP)
 
 # ========================================
@@ -28,7 +25,11 @@ def handle_street_sign(sign: number):
 # ========================================
 
 def on_received_value(name, value):
-    pass
+    global signal
+    signal = radio.received_packet(RadioPacketProperty.SIGNAL_STRENGTH)
+    sender = radio.received_packet(RadioPacketProperty.SERIAL_NUMBER)
+    time = radio.received_packet(RadioPacketProperty.TIME)
+    led.plot_bar_graph(Math.map(signal, -95, -42, 0, 9), 9)
 
 radio.on_received_value(on_received_value)
 
