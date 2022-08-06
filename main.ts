@@ -1,4 +1,4 @@
-let LIMITED_DISTANCE = -46
+let LIMITED_DISTANCE = -40
 let signal = 0
 //  ========================================
 //  BASIC

@@ -1,4 +1,4 @@
-LIMITED_DISTANCE = -46
+LIMITED_DISTANCE = -40
 
 signal = 0
 
