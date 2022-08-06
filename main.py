@@ -1,3 +1,5 @@
+LIMITED_DISTANCE = -46
+
 signal = 0
 
 # ========================================
@@ -18,7 +20,9 @@ basic.forever(on_forever)
 # ========================================
 
 def handle_street_sign(sign: number):
-    basic.show_icon(IconNames.ASLEEP)
+    motor.servo(motor.Servos.S8, 180)
+    basic.pause(200)
+    motor.servo(motor.Servos.S1, 0)
 
 # ========================================
 # RADIO
@@ -29,7 +33,9 @@ def on_received_value(name, value):
     signal = radio.received_packet(RadioPacketProperty.SIGNAL_STRENGTH)
     sender = radio.received_packet(RadioPacketProperty.SERIAL_NUMBER)
     time = radio.received_packet(RadioPacketProperty.TIME)
-    basic.show_string(str(signal))
+    #basic.show_string(str(signal))
+    if name == "instruction" and signal == LIMITED_DISTANCE:
+        handle_street_sign(value)
 
 radio.on_received_value(on_received_value)
 
@@ -38,16 +44,10 @@ radio.on_received_value(on_received_value)
 # ========================================
 
 def on_button_pressed_a():
-    motor.servo(motor.Servos.S1, 180)
-    basic.pause(200)
-    motor.servo(motor.Servos.S1, 0)
-    basic.show_icon(IconNames.SQUARE)
+    pass
 
 def on_button_pressed_b():
-    motor.servo(motor.Servos.S8, 180)
-    basic.pause(200)
-    motor.servo(motor.Servos.S1, 0)
-    basic.show_icon(IconNames.SMALL_SQUARE)
+    pass
 
 input.on_button_pressed(Button.A, on_button_pressed_a)
 input.on_button_pressed(Button.B, on_button_pressed_b)
