@@ -26,7 +26,7 @@ radio.onReceivedValue(function on_received_value(name: string, value: number) {
     signal = radio.receivedPacket(RadioPacketProperty.SignalStrength)
     let sender = radio.receivedPacket(RadioPacketProperty.SerialNumber)
     let time = radio.receivedPacket(RadioPacketProperty.Time)
-    led.plotBarGraph(Math.map(signal, -95, -42, 0, 9), 9)
+    basic.showString("" + signal)
 })
 //  ========================================
 //  BUTTON

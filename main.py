@@ -29,7 +29,7 @@ def on_received_value(name, value):
     signal = radio.received_packet(RadioPacketProperty.SIGNAL_STRENGTH)
     sender = radio.received_packet(RadioPacketProperty.SERIAL_NUMBER)
     time = radio.received_packet(RadioPacketProperty.TIME)
-    led.plot_bar_graph(Math.map(signal, -95, -42, 0, 9), 9)
+    basic.show_string(str(signal))
 
 radio.on_received_value(on_received_value)
 
