@@ -1,3 +1,6 @@
+def on_start():
+    basic.show_icon(IconNames.HEART)
+
 def on_button_pressed_a():
     motor.servo(motor.Servos.S1, 180)
     basic.pause(200)
@@ -14,4 +17,5 @@ input.on_button_pressed(Button.B, on_button_pressed_b)
 
 def on_forever():
     basic.show_icon(IconNames.HAPPY)
+    radio.set_group(1)
 basic.forever(on_forever)
