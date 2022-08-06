@@ -33,7 +33,8 @@ def on_received_value(name, value):
     signal = radio.received_packet(RadioPacketProperty.SIGNAL_STRENGTH)
     sender = radio.received_packet(RadioPacketProperty.SERIAL_NUMBER)
     time = radio.received_packet(RadioPacketProperty.TIME)
-    #basic.show_string(str(signal))
+    basic.show_string(name)
+    basic.show_string(str(signal))
     if name == "instruction" and signal <= LIMITED_DISTANCE:
         handle_street_sign(value)
 

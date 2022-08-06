@@ -29,7 +29,8 @@ radio.onReceivedValue(function on_received_value(name: string, value: number) {
     signal = radio.receivedPacket(RadioPacketProperty.SignalStrength)
     let sender = radio.receivedPacket(RadioPacketProperty.SerialNumber)
     let time = radio.receivedPacket(RadioPacketProperty.Time)
-    // basic.show_string(str(signal))
+    basic.showString(name)
+    basic.showString("" + signal)
     if (name == "instruction" && signal <= LIMITED_DISTANCE) {
         handle_street_sign(value)
     }
