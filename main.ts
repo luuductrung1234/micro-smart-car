@@ -18,7 +18,7 @@ basic.forever(function on_forever() {
 function handle_street_sign(sign: number) {
     motor.servo(motor.Servos.S8, 180)
     basic.pause(200)
-    motor.servo(motor.Servos.S1, 0)
+    motor.servo(motor.Servos.S8, 0)
 }
 
 //  ========================================
