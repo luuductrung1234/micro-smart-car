@@ -48,10 +48,10 @@ def on_button_pressed_a():
     motor.servo(motor.Servos.S8, 180)
     basic.pause(200)
     motor.servo(motor.Servos.S8, 0)
-    motor.motor_run(motor.Motors.M1, motor.Dir.CW, 20)
-    motor.motor_run(motor.Motors.M2, motor.Dir.CW, 20)
-    motor.motor_run(motor.Motors.M3, motor.Dir.CW, 20)
-    motor.motor_run(motor.Motors.M4, motor.Dir.CW, 20)
+    motor.motor_run(motor.Motors.M1, motor.Dir.CW, 50)
+    motor.motor_run(motor.Motors.M2, motor.Dir.CCW, 50)
+    motor.motor_run(motor.Motors.M3, motor.Dir.CW, 50)
+    motor.motor_run(motor.Motors.M4, motor.Dir.CCW, 50)
     pass
 
 def on_button_pressed_b():
