@@ -6,7 +6,12 @@
         "radio": "*",
         "microphone": "*",
         "servo": "*",
-        "motor": "github:dfrobot/pxt-motor#master"
+        "motor": "github:dfrobot/pxt-motor#master",
+        "microturtle": "github:microsoft/pxt-microturtle#v0.0.9",
+        "radio-broadcast": "*",
+        "pxt-sonar": "github:microsoft/pxt-sonar#v0.0.5",
+        "pxt-esp8266": "github:cytrontechnologies/pxt-esp8266#v1.1.4",
+        "Grove": "github:seeed-studio/pxt-grove#v0.5.0"
     },
     "files": [
         "main.blocks",
