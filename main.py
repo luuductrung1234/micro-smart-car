@@ -44,6 +44,9 @@ radio.on_received_value(on_received_value)
 # ========================================
 
 def on_button_pressed_a():
+    motor.servo(motor.Servos.S8, 180)
+    basic.pause(200)
+    motor.servo(motor.Servos.S1, 0)
     pass
 
 def on_button_pressed_b():

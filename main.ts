@@ -39,6 +39,9 @@ radio.onReceivedValue(function on_received_value(name: string, value: number) {
 //  BUTTON
 //  ========================================
 input.onButtonPressed(Button.A, function on_button_pressed_a() {
+    motor.servo(motor.Servos.S8, 180)
+    basic.pause(200)
+    motor.servo(motor.Servos.S1, 0)
     
 })
 input.onButtonPressed(Button.B, function on_button_pressed_b() {
