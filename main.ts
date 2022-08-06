@@ -43,6 +43,10 @@ input.onButtonPressed(Button.A, function on_button_pressed_a() {
     motor.servo(motor.Servos.S8, 180)
     basic.pause(200)
     motor.servo(motor.Servos.S8, 0)
+    motor.MotorRun(motor.Motors.M1, motor.Dir.CW, 20)
+    motor.MotorRun(motor.Motors.M2, motor.Dir.CW, 20)
+    motor.MotorRun(motor.Motors.M3, motor.Dir.CW, 20)
+    motor.MotorRun(motor.Motors.M4, motor.Dir.CW, 20)
     
 })
 input.onButtonPressed(Button.B, function on_button_pressed_b() {
