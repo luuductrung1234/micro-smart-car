@@ -1,7 +1,7 @@
 LIMITED_DISTANCE = -40
 
 signal = 0
-currenct_direction = 0
+currenct_direction = 1
 current_speed = 20
 
 # ========================================
@@ -101,7 +101,7 @@ def engine_run(direction: number):
     global current_speed
     global currenct_direction
     currenct_direction = direction
-    basic.show_number(currenct_direction)
+    basic.show_number(direction)
     if currenct_direction == 1:
         turn_left(current_speed)
     if currenct_direction == 2:

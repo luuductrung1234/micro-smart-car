@@ -1,6 +1,6 @@
 let LIMITED_DISTANCE = -40
 let signal = 0
-let currenct_direction = 0
+let currenct_direction = 1
 let current_speed = 20
 //  ========================================
 //  BASIC
@@ -117,7 +117,7 @@ function engine_run(direction: number) {
     
     
     currenct_direction = direction
-    basic.showNumber(currenct_direction)
+    basic.showNumber(direction)
     if (currenct_direction == 1) {
         turn_left(current_speed)
     }
