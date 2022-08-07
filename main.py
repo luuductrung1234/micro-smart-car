@@ -2,7 +2,7 @@ LIMITED_DISTANCE = -40
 
 signal = 0
 current_is_run = 0
-current_direction = 1
+current_direction = 3
 current_speed = 30
 
 # ========================================
@@ -57,12 +57,13 @@ def on_button_pressed_a():
     global current_speed
 
     current_is_run = 1
-    current_speed = 30
+    current_speed = 40
+    expected_direction = 0
     if current_direction == 4:
-        current_direction = 1
+        expected_direction = 1
     else:
-        current_direction += 1
-    handle_direction(current_direction)
+        expected_direction = current_direction + 1
+    handle_direction(expected_direction)
     pass
 
 def on_button_pressed_b():
@@ -71,7 +72,7 @@ def on_button_pressed_b():
     global current_speed
     
     current_is_run = 0
-    current_speed = 30
+    current_speed = 40
     current_direction = 1
     engine_stop()
     pass
@@ -92,9 +93,10 @@ def handle_direction(direction: number):
     global current_direction
     global current_speed
     basic.show_number(direction)
-    if current_is_run == 0 or current_direction == direction:
+    if current_is_run == 0:
         return
-    current_direction = direction
+    if current_direction != direction:
+        current_direction = direction
     engine_run(current_direction, current_speed)
 
 def handle_run(is_run: number):

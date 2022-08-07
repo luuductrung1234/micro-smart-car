@@ -1,7 +1,7 @@
 let LIMITED_DISTANCE = -40
 let signal = 0
 let current_is_run = 0
-let current_direction = 1
+let current_direction = 3
 let current_speed = 30
 //  ========================================
 //  BASIC
@@ -63,14 +63,15 @@ input.onButtonPressed(Button.A, function on_button_pressed_a() {
     
     
     current_is_run = 1
-    current_speed = 30
+    current_speed = 40
+    let expected_direction = 0
     if (current_direction == 4) {
-        current_direction = 1
+        expected_direction = 1
     } else {
-        current_direction += 1
+        expected_direction = current_direction + 1
     }
     
-    handle_direction(current_direction)
+    handle_direction(expected_direction)
     
 })
 input.onButtonPressed(Button.B, function on_button_pressed_b() {
@@ -78,7 +79,7 @@ input.onButtonPressed(Button.B, function on_button_pressed_b() {
     
     
     current_is_run = 0
-    current_speed = 30
+    current_speed = 40
     current_direction = 1
     engine_stop()
     
@@ -95,11 +96,14 @@ function handle_direction(direction: number) {
     
     
     basic.showNumber(direction)
-    if (current_is_run == 0 || current_direction == direction) {
+    if (current_is_run == 0) {
         return
     }
     
-    current_direction = direction
+    if (current_direction != direction) {
+        current_direction = direction
+    }
+    
     engine_run(current_direction, current_speed)
 }
 
