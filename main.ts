@@ -21,7 +21,6 @@ basic.forever(function on_forever() {
 radio.onReceivedValue(function on_received_value(name: string, value: number) {
     let sender: number;
     let time: number;
-    basic.showString(name)
     if (name == "mode") {
         engine_stop()
         basic.showString("M")
@@ -45,8 +44,7 @@ radio.onReceivedValue(function on_received_value(name: string, value: number) {
         basic.showString("R")
     }
     
-    if (name == "direction") {
-        basic.showNumber(value)
+    if (name == "dir") {
         handle_direction(value)
         basic.showString("D")
     }

@@ -23,7 +23,6 @@ basic.forever(on_forever)
 # ========================================
 
 def on_received_value(name, value):
-    basic.show_string(name)
     if name == "mode":
         engine_stop()
         basic.show_string("M")
@@ -39,8 +38,7 @@ def on_received_value(name, value):
     if name == "is_run":
         handle_run(value)
         basic.show_string("R")
-    if name == "direction":
-        basic.show_number(value)
+    if name == "dir":
         handle_direction(value)
         basic.show_string("D")
     if name == "speed":
