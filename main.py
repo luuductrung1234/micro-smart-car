@@ -41,8 +41,9 @@ def on_received_value(name, value):
         handle_direction(value)
         basic.show_string("D")
     if name == "speed":
-        basic.show_string("S")
         handle_speed(value)
+        basic.show_string("S")
+    basic.pause(100)
 
 radio.on_received_value(on_received_value)
 

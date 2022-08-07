@@ -49,10 +49,11 @@ radio.onReceivedValue(function on_received_value(name: string, value: number) {
     }
     
     if (name == "speed") {
-        basic.showString("S")
         handle_speed(value)
+        basic.showString("S")
     }
     
+    basic.pause(100)
 })
 //  ========================================
 //  BUTTON
