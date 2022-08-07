@@ -21,6 +21,7 @@ basic.forever(on_forever)
 # ========================================
 
 def on_received_value(name, value):
+    basic.show_string(name)
     if name == "mode":
         engine_stop()
     if name == "steps":
@@ -28,7 +29,6 @@ def on_received_value(name, value):
         signal = radio.received_packet(RadioPacketProperty.SIGNAL_STRENGTH)
         sender = radio.received_packet(RadioPacketProperty.SERIAL_NUMBER)
         time = radio.received_packet(RadioPacketProperty.TIME)
-        basic.show_string(name)
         basic.show_string(str(signal))
         if signal <= LIMITED_DISTANCE:
             handle_steps(value)

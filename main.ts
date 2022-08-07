@@ -19,6 +19,7 @@ basic.forever(function on_forever() {
 radio.onReceivedValue(function on_received_value(name: string, value: number) {
     let sender: number;
     let time: number;
+    basic.showString(name)
     if (name == "mode") {
         engine_stop()
     }
@@ -28,7 +29,6 @@ radio.onReceivedValue(function on_received_value(name: string, value: number) {
         signal = radio.receivedPacket(RadioPacketProperty.SignalStrength)
         sender = radio.receivedPacket(RadioPacketProperty.SerialNumber)
         time = radio.receivedPacket(RadioPacketProperty.Time)
-        basic.showString(name)
         basic.showString("" + signal)
         if (signal <= LIMITED_DISTANCE) {
             handle_steps(value)
