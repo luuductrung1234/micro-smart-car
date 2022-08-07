@@ -1,5 +1,6 @@
 let LIMITED_DISTANCE = -40
 let signal = 0
+let currenct_direction = 0
 let current_speed = 20
 //  ========================================
 //  BASIC
@@ -19,12 +20,13 @@ basic.forever(function on_forever() {
 radio.onReceivedValue(function on_received_value(name: string, value: number) {
     let sender: number;
     let time: number;
-    basic.showString(name)
     if (name == "mode") {
+        basic.showString("M")
         engine_stop()
     }
     
     if (name == "steps") {
+        basic.showString("S")
         
         signal = radio.receivedPacket(RadioPacketProperty.SignalStrength)
         sender = radio.receivedPacket(RadioPacketProperty.SerialNumber)
@@ -37,14 +39,17 @@ radio.onReceivedValue(function on_received_value(name: string, value: number) {
     }
     
     if (name == "is_run") {
+        basic.showString("R")
         handle_run(value)
     }
     
     if (name == "direction") {
+        basic.showString("D")
         handle_direction(value)
     }
     
     if (name == "speed") {
+        basic.showString("S")
         handle_speed(value)
     }
     
@@ -68,19 +73,28 @@ function handle_steps(sign: number) {
 
 function handle_direction(direction: number) {
     
+    
+    if (currenct_direction == direction) {
+        return
+    }
+    
     if (direction == 1) {
+        currenct_direction = direction
         turn_left(current_speed)
     }
     
     if (direction == 2) {
+        currenct_direction = direction
         turn_right(current_speed)
     }
     
     if (direction == 3) {
+        currenct_direction = direction
         go_forward(current_speed)
     }
     
     if (direction == 4) {
+        currenct_direction = direction
         go_backward(current_speed)
     }
     
@@ -100,7 +114,10 @@ function handle_run(is_run: number) {
 
 function handle_speed(speed: number) {
     
-    current_speed = speed
+    if (current_speed != speed) {
+        current_speed = speed
+    }
+    
 }
 
 function go_forward(speed: number) {

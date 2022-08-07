@@ -1,6 +1,7 @@
 LIMITED_DISTANCE = -40
 
 signal = 0
+currenct_direction = 0
 current_speed = 20
 
 # ========================================
@@ -21,10 +22,11 @@ basic.forever(on_forever)
 # ========================================
 
 def on_received_value(name, value):
-    basic.show_string(name)
     if name == "mode":
+        basic.show_string("M")
         engine_stop()
     if name == "steps":
+        basic.show_string("S")
         global signal
         signal = radio.received_packet(RadioPacketProperty.SIGNAL_STRENGTH)
         sender = radio.received_packet(RadioPacketProperty.SERIAL_NUMBER)
@@ -33,10 +35,13 @@ def on_received_value(name, value):
         if signal <= LIMITED_DISTANCE:
             handle_steps(value)
     if name == "is_run":
+        basic.show_string("R")
         handle_run(value)
     if name == "direction":
+        basic.show_string("D")
         handle_direction(value)
     if name == "speed":
+        basic.show_string("S")
         handle_speed(value)
 
 radio.on_received_value(on_received_value)
@@ -65,13 +70,20 @@ def handle_steps(sign: number):
 
 def handle_direction(direction: number):
     global current_speed
+    global currenct_direction
+    if currenct_direction == direction:
+        return
     if direction == 1:
+        currenct_direction = direction
         turn_left(current_speed)
     if direction == 2:
+        currenct_direction = direction
         turn_right(current_speed)
     if direction == 3:
+        currenct_direction = direction
         go_forward(current_speed)
     if direction == 4:
+        currenct_direction = direction
         go_backward(current_speed)
 
 def handle_run(is_run: number):
@@ -83,7 +95,8 @@ def handle_run(is_run: number):
 
 def handle_speed(speed: number):
     global current_speed
-    current_speed = speed
+    if current_speed != speed:
+        current_speed = speed
 
 def go_forward(speed: number):
     engine_stop()
