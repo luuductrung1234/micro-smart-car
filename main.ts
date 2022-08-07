@@ -96,12 +96,12 @@ function handle_direction(direction: number) {
     
     
     basic.showNumber(direction)
-    if (current_is_run == 0) {
-        return
-    }
-    
     if (current_direction != direction) {
         current_direction = direction
+    }
+    
+    if (current_is_run == 0) {
+        return
     }
     
     engine_run(current_direction, current_speed)
