@@ -3,7 +3,7 @@ LIMITED_DISTANCE = -40
 signal = 0
 current_is_run = 0
 current_direction = 1
-current_speed = 20
+current_speed = 30
 
 # ========================================
 # BASIC

@@ -2,7 +2,7 @@ let LIMITED_DISTANCE = -40
 let signal = 0
 let current_is_run = 0
 let current_direction = 1
-let current_speed = 20
+let current_speed = 30
 //  ========================================
 //  BASIC
 //  ========================================
