@@ -37,13 +37,10 @@ def on_received_value(name, value):
         basic.show_string("S")
     if name == "is_run":
         handle_run(value)
-        basic.show_string("R")
     if name == "dir":
         handle_direction(value)
-        basic.show_string("D")
     if name == "speed":
         handle_speed(value)
-        basic.show_string("S")
 
 radio.on_received_value(on_received_value)
 
@@ -92,9 +89,10 @@ def handle_direction(direction: number):
     global current_is_run
     global current_direction
     global current_speed
-    basic.show_number(direction)
     if current_direction != direction:
         current_direction = direction
+    else:
+        return
     if current_is_run == 0:
         return
     engine_run(current_direction, current_speed)

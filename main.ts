@@ -41,17 +41,14 @@ radio.onReceivedValue(function on_received_value(name: string, value: number) {
     
     if (name == "is_run") {
         handle_run(value)
-        basic.showString("R")
     }
     
     if (name == "dir") {
         handle_direction(value)
-        basic.showString("D")
     }
     
     if (name == "speed") {
         handle_speed(value)
-        basic.showString("S")
     }
     
 })
@@ -95,9 +92,10 @@ function handle_direction(direction: number) {
     
     
     
-    basic.showNumber(direction)
     if (current_direction != direction) {
         current_direction = direction
+    } else {
+        return
     }
     
     if (current_is_run == 0) {
