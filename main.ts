@@ -95,6 +95,7 @@ function handle_run(is_run: number) {
 
 function handle_speed(speed: number) {
     
+    
     // basic.show_number(speed)
     if (current_speed == speed) {
         return

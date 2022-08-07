@@ -83,6 +83,7 @@ def handle_run(is_run: number):
         go_forward(current_speed)
 
 def handle_speed(speed: number):
+    global currenct_direction
     global current_speed
     #basic.show_number(speed)
     if current_speed == speed:
