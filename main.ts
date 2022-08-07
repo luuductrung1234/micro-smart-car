@@ -60,6 +60,10 @@ radio.onReceivedValue(function on_received_value(name: string, value: number) {
 //  ========================================
 input.onButtonPressed(Button.A, function on_button_pressed_a() {
     
+    
+    
+    current_is_run = 1
+    current_speed = 30
     if (current_direction == 4) {
         current_direction = 1
     } else {
@@ -70,6 +74,12 @@ input.onButtonPressed(Button.A, function on_button_pressed_a() {
     
 })
 input.onButtonPressed(Button.B, function on_button_pressed_b() {
+    
+    
+    
+    current_is_run = 0
+    current_speed = 30
+    current_direction = 1
     engine_stop()
     
 })
@@ -83,22 +93,28 @@ function handle_steps(sign: number) {
 function handle_direction(direction: number) {
     
     
+    
     basic.showNumber(direction)
     if (current_is_run == 0 || current_direction == direction) {
         return
     }
     
-    engine_run(direction)
+    current_direction = direction
+    engine_run(current_direction, current_speed)
 }
 
 function handle_run(is_run: number) {
     
+    
+    
     // basic.show_number(is_run)
     if (is_run == 0) {
+        current_is_run = 0
         engine_stop()
     }
     
     if (is_run == 1) {
+        current_is_run = 1
         go_forward(current_speed)
     }
     
@@ -107,33 +123,31 @@ function handle_run(is_run: number) {
 function handle_speed(speed: number) {
     
     
+    
     // basic.show_number(speed)
     if (current_speed == speed) {
         return
     }
     
     current_speed = speed
-    engine_run(current_direction)
+    engine_run(current_direction, current_speed)
 }
 
-function engine_run(direction: number) {
-    
-    
-    current_direction = direction
-    if (current_direction == 1) {
-        turn_left(current_speed)
+function engine_run(direction: number, speed: number) {
+    if (direction == 1) {
+        turn_left(speed)
     }
     
-    if (current_direction == 2) {
-        turn_right(current_speed)
+    if (direction == 2) {
+        turn_right(speed)
     }
     
-    if (current_direction == 3) {
-        go_forward(current_speed)
+    if (direction == 3) {
+        go_forward(speed)
     }
     
-    if (current_direction == 4) {
-        go_backward(current_speed)
+    if (direction == 4) {
+        go_backward(speed)
     }
     
 }

@@ -52,7 +52,12 @@ radio.on_received_value(on_received_value)
 # ========================================
 
 def on_button_pressed_a():
+    global current_is_run
     global current_direction
+    global current_speed
+
+    current_is_run = 1
+    current_speed = 30
     if current_direction == 4:
         current_direction = 1
     else:
@@ -61,6 +66,13 @@ def on_button_pressed_a():
     pass
 
 def on_button_pressed_b():
+    global current_is_run
+    global current_direction
+    global current_speed
+    
+    current_is_run = 0
+    current_speed = 30
+    current_direction = 1
     engine_stop()
     pass
 
@@ -78,40 +90,44 @@ def handle_steps(sign: number):
 def handle_direction(direction: number):
     global current_is_run
     global current_direction
+    global current_speed
     basic.show_number(direction)
     if current_is_run == 0 or current_direction == direction:
         return
-    engine_run(direction)
+    current_direction = direction
+    engine_run(current_direction, current_speed)
 
 def handle_run(is_run: number):
+    global current_is_run
+    global current_direction
     global current_speed
     #basic.show_number(is_run)
     if is_run == 0:
+        current_is_run = 0
         engine_stop()
     if is_run == 1:
+        current_is_run = 1
         go_forward(current_speed)
 
 def handle_speed(speed: number):
+    global current_is_run
     global current_direction
     global current_speed
     #basic.show_number(speed)
     if current_speed == speed:
         return
     current_speed = speed
-    engine_run(current_direction)
+    engine_run(current_direction, current_speed)
 
-def engine_run(direction: number):
-    global current_speed
-    global current_direction
-    current_direction = direction
-    if current_direction == 1:
-        turn_left(current_speed)
-    if current_direction == 2:
-        turn_right(current_speed)
-    if current_direction == 3:
-        go_forward(current_speed)
-    if current_direction == 4:
-        go_backward(current_speed)
+def engine_run(direction: number, speed: number):
+    if direction == 1:
+        turn_left(speed)
+    if direction == 2:
+        turn_right(speed)
+    if direction == 3:
+        go_forward(speed)
+    if direction == 4:
+        go_backward(speed)
 
 def go_forward(speed: number):
     engine_stop()
