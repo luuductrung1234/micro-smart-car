@@ -73,31 +73,11 @@ function handle_steps(sign: number) {
 
 function handle_direction(direction: number) {
     
-    
     if (currenct_direction == direction) {
         return
     }
     
-    if (direction == 1) {
-        currenct_direction = direction
-        turn_left(current_speed)
-    }
-    
-    if (direction == 2) {
-        currenct_direction = direction
-        turn_right(current_speed)
-    }
-    
-    if (direction == 3) {
-        currenct_direction = direction
-        go_forward(current_speed)
-    }
-    
-    if (direction == 4) {
-        currenct_direction = direction
-        go_backward(current_speed)
-    }
-    
+    engine_run(direction)
 }
 
 function handle_run(is_run: number) {
@@ -116,8 +96,32 @@ function handle_run(is_run: number) {
 function handle_speed(speed: number) {
     
     // basic.show_number(speed)
-    if (current_speed != speed) {
-        current_speed = speed
+    if (current_speed == speed) {
+        return
+    }
+    
+    current_speed = speed
+    engine_run(currenct_direction)
+}
+
+function engine_run(direction: number) {
+    
+    
+    currenct_direction = direction
+    if (currenct_direction == 1) {
+        turn_left(current_speed)
+    }
+    
+    if (currenct_direction == 2) {
+        turn_right(current_speed)
+    }
+    
+    if (currenct_direction == 3) {
+        go_forward(current_speed)
+    }
+    
+    if (currenct_direction == 4) {
+        go_backward(current_speed)
     }
     
 }

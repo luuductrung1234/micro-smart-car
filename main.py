@@ -69,22 +69,10 @@ def handle_steps(sign: number):
     pass
 
 def handle_direction(direction: number):
-    global current_speed
     global currenct_direction
     if currenct_direction == direction:
         return
-    if direction == 1:
-        currenct_direction = direction
-        turn_left(current_speed)
-    if direction == 2:
-        currenct_direction = direction
-        turn_right(current_speed)
-    if direction == 3:
-        currenct_direction = direction
-        go_forward(current_speed)
-    if direction == 4:
-        currenct_direction = direction
-        go_backward(current_speed)
+    engine_run(direction)
 
 def handle_run(is_run: number):
     global current_speed
@@ -97,8 +85,23 @@ def handle_run(is_run: number):
 def handle_speed(speed: number):
     global current_speed
     #basic.show_number(speed)
-    if current_speed != speed:
-        current_speed = speed
+    if current_speed == speed:
+        return
+    current_speed = speed
+    engine_run(currenct_direction)
+
+def engine_run(direction: number):
+    global current_speed
+    global currenct_direction
+    currenct_direction = direction
+    if currenct_direction == 1:
+        turn_left(current_speed)
+    if currenct_direction == 2:
+        turn_right(current_speed)
+    if currenct_direction == 3:
+        go_forward(current_speed)
+    if currenct_direction == 4:
+        go_backward(current_speed)
 
 def go_forward(speed: number):
     engine_stop()
