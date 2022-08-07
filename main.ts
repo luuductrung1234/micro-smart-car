@@ -186,22 +186,8 @@ function go_backward(speed: number) {
 
 function turn_right(speed: number) {
     engine_stop()
-    motor.MotorRun(motor.Motors.M1, motor.Dir.CW, 30)
-    motor.MotorRun(motor.Motors.M2, motor.Dir.CCW, 30)
-    motor.MotorRun(motor.Motors.M3, motor.Dir.CW, 30)
-    motor.MotorRun(motor.Motors.M4, motor.Dir.CCW, speed + 20)
-    motor.servo(motor.Servos.S8, 45)
-    basic.pause(200)
-    motor.servo(motor.Servos.S8, 90)
-    basic.pause(200)
-    motor.servo(motor.Servos.S8, 135)
-    basic.pause(200)
-    motor.servo(motor.Servos.S8, 180)
-    basic.pause(200)
-    motor.MotorRun(motor.Motors.M1, motor.Dir.CW, speed)
-    motor.MotorRun(motor.Motors.M2, motor.Dir.CCW, speed)
-    motor.MotorRun(motor.Motors.M3, motor.Dir.CW, speed)
-    motor.MotorRun(motor.Motors.M4, motor.Dir.CCW, speed)
+    motor.MotorRun(motor.Motors.M3, motor.Dir.CW, speed + 30)
+    motor.MotorRun(motor.Motors.M4, motor.Dir.CCW, speed + 30)
     basic.showLeds(`
         . . # . .
         . . . # .
@@ -213,22 +199,8 @@ function turn_right(speed: number) {
 
 function turn_left(speed: number) {
     engine_stop()
-    motor.MotorRun(motor.Motors.M1, motor.Dir.CW, 30)
-    motor.MotorRun(motor.Motors.M2, motor.Dir.CCW, speed + 20)
-    motor.MotorRun(motor.Motors.M3, motor.Dir.CW, 30)
-    motor.MotorRun(motor.Motors.M4, motor.Dir.CCW, 30)
-    motor.servo(motor.Servos.S8, 135)
-    basic.pause(200)
-    motor.servo(motor.Servos.S8, 90)
-    basic.pause(200)
-    motor.servo(motor.Servos.S8, 45)
-    basic.pause(200)
-    motor.servo(motor.Servos.S8, 0)
-    basic.pause(200)
-    motor.MotorRun(motor.Motors.M1, motor.Dir.CW, speed)
-    motor.MotorRun(motor.Motors.M2, motor.Dir.CCW, speed)
-    motor.MotorRun(motor.Motors.M3, motor.Dir.CW, speed)
-    motor.MotorRun(motor.Motors.M4, motor.Dir.CCW, speed)
+    motor.MotorRun(motor.Motors.M1, motor.Dir.CW, speed + 30)
+    motor.MotorRun(motor.Motors.M2, motor.Dir.CCW, speed + 30)
     basic.showLeds(`
         . . # . .
         . # . . .
