@@ -21,12 +21,11 @@ radio.onReceivedValue(function on_received_value(name: string, value: number) {
     let sender: number;
     let time: number;
     if (name == "mode") {
-        basic.showString("M")
         engine_stop()
+        basic.showString("M")
     }
     
     if (name == "steps") {
-        basic.showString("S")
         
         signal = radio.receivedPacket(RadioPacketProperty.SignalStrength)
         sender = radio.receivedPacket(RadioPacketProperty.SerialNumber)
@@ -36,16 +35,17 @@ radio.onReceivedValue(function on_received_value(name: string, value: number) {
             handle_steps(value)
         }
         
+        basic.showString("S")
     }
     
     if (name == "is_run") {
-        basic.showString("R")
         handle_run(value)
+        basic.showString("R")
     }
     
     if (name == "direction") {
-        basic.showString("D")
         handle_direction(value)
+        basic.showString("D")
     }
     
     if (name == "speed") {
@@ -102,6 +102,7 @@ function handle_direction(direction: number) {
 
 function handle_run(is_run: number) {
     
+    basic.showNumber(is_run)
     if (is_run == 0) {
         engine_stop()
     }
@@ -114,6 +115,7 @@ function handle_run(is_run: number) {
 
 function handle_speed(speed: number) {
     
+    basic.showNumber(speed)
     if (current_speed != speed) {
         current_speed = speed
     }
@@ -126,6 +128,13 @@ function go_forward(speed: number) {
     motor.MotorRun(motor.Motors.M2, motor.Dir.CCW, speed)
     motor.MotorRun(motor.Motors.M3, motor.Dir.CW, speed)
     motor.MotorRun(motor.Motors.M4, motor.Dir.CCW, speed)
+    basic.showLeds(`
+        . . # . .
+        . # # # .
+        # . # . #
+        . . # . .
+        . . # . .
+    `)
 }
 
 function go_backward(speed: number) {
@@ -134,6 +143,13 @@ function go_backward(speed: number) {
     motor.MotorRun(motor.Motors.M2, motor.Dir.CW, speed)
     motor.MotorRun(motor.Motors.M3, motor.Dir.CCW, speed)
     motor.MotorRun(motor.Motors.M4, motor.Dir.CW, speed)
+    basic.showLeds(`
+        . . # . .
+        . . # . .
+        # . # . #
+        . # # # .
+        . . # . .
+    `)
 }
 
 function turn_right(speed: number) {
@@ -142,6 +158,13 @@ function turn_right(speed: number) {
     motor.MotorRun(motor.Motors.M2, motor.Dir.CW, speed)
     motor.MotorRun(motor.Motors.M3, motor.Dir.CW, speed)
     motor.MotorRun(motor.Motors.M4, motor.Dir.CCW, speed)
+    basic.showLeds(`
+        . . # . .
+        . . . # .
+        # # # # #
+        . . . # .
+        . . # . .
+    `)
 }
 
 function turn_left(speed: number) {
@@ -150,12 +173,20 @@ function turn_left(speed: number) {
     motor.MotorRun(motor.Motors.M2, motor.Dir.CCW, speed)
     motor.MotorRun(motor.Motors.M3, motor.Dir.CCW, speed)
     motor.MotorRun(motor.Motors.M4, motor.Dir.CW, speed)
+    basic.showLeds(`
+        . . # . .
+        . # . . .
+        # # # # #
+        . # . . .
+        . . # . .
+    `)
 }
 
 function engine_stop() {
-    motor.MotorRun(motor.Motors.M1, motor.Dir.CCW, 0)
-    motor.MotorRun(motor.Motors.M2, motor.Dir.CW, 0)
-    motor.MotorRun(motor.Motors.M3, motor.Dir.CCW, 0)
-    motor.MotorRun(motor.Motors.M4, motor.Dir.CW, 0)
+    // motor.motor_run(motor.Motors.M1, motor.Dir.CCW, 0)
+    // motor.motor_run(motor.Motors.M2, motor.Dir.CW, 0)
+    // motor.motor_run(motor.Motors.M3, motor.Dir.CCW, 0)
+    // motor.motor_run(motor.Motors.M4, motor.Dir.CW, 0)
+    
 }
 

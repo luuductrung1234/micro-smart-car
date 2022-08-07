@@ -23,10 +23,9 @@ basic.forever(on_forever)
 
 def on_received_value(name, value):
     if name == "mode":
-        basic.show_string("M")
         engine_stop()
+        basic.show_string("M")
     if name == "steps":
-        basic.show_string("S")
         global signal
         signal = radio.received_packet(RadioPacketProperty.SIGNAL_STRENGTH)
         sender = radio.received_packet(RadioPacketProperty.SERIAL_NUMBER)
@@ -34,12 +33,13 @@ def on_received_value(name, value):
         basic.show_string(str(signal))
         if signal <= LIMITED_DISTANCE:
             handle_steps(value)
+        basic.show_string("S")
     if name == "is_run":
-        basic.show_string("R")
         handle_run(value)
+        basic.show_string("R")
     if name == "direction":
-        basic.show_string("D")
         handle_direction(value)
+        basic.show_string("D")
     if name == "speed":
         basic.show_string("S")
         handle_speed(value)
@@ -88,6 +88,7 @@ def handle_direction(direction: number):
 
 def handle_run(is_run: number):
     global current_speed
+    basic.show_number(is_run)
     if is_run == 0:
         engine_stop()
     if is_run == 1:
@@ -95,6 +96,7 @@ def handle_run(is_run: number):
 
 def handle_speed(speed: number):
     global current_speed
+    basic.show_number(speed)
     if current_speed != speed:
         current_speed = speed
 
@@ -104,6 +106,13 @@ def go_forward(speed: number):
     motor.motor_run(motor.Motors.M2, motor.Dir.CCW, speed)
     motor.motor_run(motor.Motors.M3, motor.Dir.CW, speed)
     motor.motor_run(motor.Motors.M4, motor.Dir.CCW, speed)
+    basic.show_leds("""
+        . . # . .
+        . # # # .
+        # . # . #
+        . . # . .
+        . . # . .
+    """)
 
 def go_backward(speed: number):
     engine_stop()
@@ -111,6 +120,13 @@ def go_backward(speed: number):
     motor.motor_run(motor.Motors.M2, motor.Dir.CW, speed)
     motor.motor_run(motor.Motors.M3, motor.Dir.CCW, speed)
     motor.motor_run(motor.Motors.M4, motor.Dir.CW, speed)
+    basic.show_leds("""
+        . . # . .
+        . . # . .
+        # . # . #
+        . # # # .
+        . . # . .
+    """)
 
 def turn_right(speed: number):
     engine_stop()
@@ -118,6 +134,13 @@ def turn_right(speed: number):
     motor.motor_run(motor.Motors.M2, motor.Dir.CW, speed)
     motor.motor_run(motor.Motors.M3, motor.Dir.CW, speed)
     motor.motor_run(motor.Motors.M4, motor.Dir.CCW, speed)
+    basic.show_leds("""
+        . . # . .
+        . . . # .
+        # # # # #
+        . . . # .
+        . . # . .
+    """)
 
 def turn_left(speed: number):
     engine_stop()
@@ -125,9 +148,17 @@ def turn_left(speed: number):
     motor.motor_run(motor.Motors.M2, motor.Dir.CCW, speed)
     motor.motor_run(motor.Motors.M3, motor.Dir.CCW, speed)
     motor.motor_run(motor.Motors.M4, motor.Dir.CW, speed)
+    basic.show_leds("""
+        . . # . .
+        . # . . .
+        # # # # #
+        . # . . .
+        . . # . .
+    """)
 
 def engine_stop():
-    motor.motor_run(motor.Motors.M1, motor.Dir.CCW, 0)
-    motor.motor_run(motor.Motors.M2, motor.Dir.CW, 0)
-    motor.motor_run(motor.Motors.M3, motor.Dir.CCW, 0)
-    motor.motor_run(motor.Motors.M4, motor.Dir.CW, 0)
+    #motor.motor_run(motor.Motors.M1, motor.Dir.CCW, 0)
+    #motor.motor_run(motor.Motors.M2, motor.Dir.CW, 0)
+    #motor.motor_run(motor.Motors.M3, motor.Dir.CCW, 0)
+    #motor.motor_run(motor.Motors.M4, motor.Dir.CW, 0)
+    pass
