@@ -43,7 +43,6 @@ def on_received_value(name, value):
     if name == "speed":
         handle_speed(value)
         basic.show_string("S")
-    basic.pause(100)
 
 radio.on_received_value(on_received_value)
 
@@ -89,7 +88,7 @@ def handle_direction(direction: number):
 
 def handle_run(is_run: number):
     global current_speed
-    basic.show_number(is_run)
+    #basic.show_number(is_run)
     if is_run == 0:
         engine_stop()
     if is_run == 1:
@@ -97,7 +96,7 @@ def handle_run(is_run: number):
 
 def handle_speed(speed: number):
     global current_speed
-    basic.show_number(speed)
+    #basic.show_number(speed)
     if current_speed != speed:
         current_speed = speed
 

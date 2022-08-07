@@ -53,7 +53,6 @@ radio.onReceivedValue(function on_received_value(name: string, value: number) {
         basic.showString("S")
     }
     
-    basic.pause(100)
 })
 //  ========================================
 //  BUTTON
@@ -103,7 +102,7 @@ function handle_direction(direction: number) {
 
 function handle_run(is_run: number) {
     
-    basic.showNumber(is_run)
+    // basic.show_number(is_run)
     if (is_run == 0) {
         engine_stop()
     }
@@ -116,7 +115,7 @@ function handle_run(is_run: number) {
 
 function handle_speed(speed: number) {
     
-    basic.showNumber(speed)
+    // basic.show_number(speed)
     if (current_speed != speed) {
         current_speed = speed
     }
