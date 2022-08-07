@@ -184,10 +184,10 @@ function turn_left(speed: number) {
 }
 
 function engine_stop() {
-    // motor.motor_run(motor.Motors.M1, motor.Dir.CCW, 0)
-    // motor.motor_run(motor.Motors.M2, motor.Dir.CW, 0)
-    // motor.motor_run(motor.Motors.M3, motor.Dir.CCW, 0)
-    // motor.motor_run(motor.Motors.M4, motor.Dir.CW, 0)
+    motor.MotorRun(motor.Motors.M1, motor.Dir.CCW, 0)
+    motor.MotorRun(motor.Motors.M2, motor.Dir.CW, 0)
+    motor.MotorRun(motor.Motors.M3, motor.Dir.CCW, 0)
+    motor.MotorRun(motor.Motors.M4, motor.Dir.CW, 0)
     
 }
 
