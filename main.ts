@@ -1,6 +1,7 @@
 let LIMITED_DISTANCE = -40
 let signal = 0
-let currenct_direction = 1
+let current_is_run = 0
+let current_direction = 1
 let current_speed = 20
 //  ========================================
 //  BASIC
@@ -59,13 +60,13 @@ radio.onReceivedValue(function on_received_value(name: string, value: number) {
 //  ========================================
 input.onButtonPressed(Button.A, function on_button_pressed_a() {
     
-    if (currenct_direction == 4) {
-        currenct_direction = 1
+    if (current_direction == 4) {
+        current_direction = 1
     } else {
-        currenct_direction += 1
+        current_direction += 1
     }
     
-    handle_direction(currenct_direction)
+    handle_direction(current_direction)
     
 })
 input.onButtonPressed(Button.B, function on_button_pressed_b() {
@@ -81,7 +82,9 @@ function handle_steps(sign: number) {
 
 function handle_direction(direction: number) {
     
-    if (currenct_direction == direction) {
+    
+    basic.showNumber(direction)
+    if (current_is_run == 0 || current_direction == direction) {
         return
     }
     
@@ -110,27 +113,26 @@ function handle_speed(speed: number) {
     }
     
     current_speed = speed
-    engine_run(currenct_direction)
+    engine_run(current_direction)
 }
 
 function engine_run(direction: number) {
     
     
-    currenct_direction = direction
-    basic.showNumber(direction)
-    if (currenct_direction == 1) {
+    current_direction = direction
+    if (current_direction == 1) {
         turn_left(current_speed)
     }
     
-    if (currenct_direction == 2) {
+    if (current_direction == 2) {
         turn_right(current_speed)
     }
     
-    if (currenct_direction == 3) {
+    if (current_direction == 3) {
         go_forward(current_speed)
     }
     
-    if (currenct_direction == 4) {
+    if (current_direction == 4) {
         go_backward(current_speed)
     }
     

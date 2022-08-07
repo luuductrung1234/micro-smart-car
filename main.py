@@ -1,7 +1,8 @@
 LIMITED_DISTANCE = -40
 
 signal = 0
-currenct_direction = 1
+current_is_run = 0
+current_direction = 1
 current_speed = 20
 
 # ========================================
@@ -51,12 +52,12 @@ radio.on_received_value(on_received_value)
 # ========================================
 
 def on_button_pressed_a():
-    global currenct_direction
-    if currenct_direction == 4:
-        currenct_direction = 1
+    global current_direction
+    if current_direction == 4:
+        current_direction = 1
     else:
-        currenct_direction += 1
-    handle_direction(currenct_direction)
+        current_direction += 1
+    handle_direction(current_direction)
     pass
 
 def on_button_pressed_b():
@@ -75,8 +76,10 @@ def handle_steps(sign: number):
     pass
 
 def handle_direction(direction: number):
-    global currenct_direction
-    if currenct_direction == direction:
+    global current_is_run
+    global current_direction
+    basic.show_number(direction)
+    if current_is_run == 0 or current_direction == direction:
         return
     engine_run(direction)
 
@@ -89,26 +92,25 @@ def handle_run(is_run: number):
         go_forward(current_speed)
 
 def handle_speed(speed: number):
-    global currenct_direction
+    global current_direction
     global current_speed
     #basic.show_number(speed)
     if current_speed == speed:
         return
     current_speed = speed
-    engine_run(currenct_direction)
+    engine_run(current_direction)
 
 def engine_run(direction: number):
     global current_speed
-    global currenct_direction
-    currenct_direction = direction
-    basic.show_number(direction)
-    if currenct_direction == 1:
+    global current_direction
+    current_direction = direction
+    if current_direction == 1:
         turn_left(current_speed)
-    if currenct_direction == 2:
+    if current_direction == 2:
         turn_right(current_speed)
-    if currenct_direction == 3:
+    if current_direction == 3:
         go_forward(current_speed)
-    if currenct_direction == 4:
+    if current_direction == 4:
         go_backward(current_speed)
 
 def go_forward(speed: number):
