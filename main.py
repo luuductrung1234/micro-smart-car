@@ -39,6 +39,7 @@ def on_received_value(name, value):
         handle_run(value)
         basic.show_string("R")
     if name == "direction":
+        basic.show_number(value)
         handle_direction(value)
         basic.show_string("D")
     if name == "speed":

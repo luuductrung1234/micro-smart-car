@@ -45,6 +45,7 @@ radio.onReceivedValue(function on_received_value(name: string, value: number) {
     }
     
     if (name == "direction") {
+        basic.showNumber(value)
         handle_direction(value)
         basic.showString("D")
     }
