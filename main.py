@@ -162,9 +162,9 @@ def go_backward(speed: number):
 def turn_right(speed: number):
     engine_stop()
     motor.motor_run(motor.Motors.M1, motor.Dir.CW, 20)
-    motor.motor_run(motor.Motors.M2, motor.Dir.CW, 20)
-    motor.motor_run(motor.Motors.M3, motor.Dir.CW, speed)
-    motor.motor_run(motor.Motors.M4, motor.Dir.CW, 20)
+    motor.motor_run(motor.Motors.M2, motor.Dir.CCW, 20)
+    motor.motor_run(motor.Motors.M3, motor.Dir.CW, speed + 5)
+    motor.motor_run(motor.Motors.M4, motor.Dir.CCW, 20)
     basic.show_leds("""
         . . # . .
         . . . # .
@@ -175,10 +175,10 @@ def turn_right(speed: number):
 
 def turn_left(speed: number):
     engine_stop()
-    motor.motor_run(motor.Motors.M1, motor.Dir.CW, speed)
-    motor.motor_run(motor.Motors.M2, motor.Dir.CW, 20)
+    motor.motor_run(motor.Motors.M1, motor.Dir.CW, speed + 5)
+    motor.motor_run(motor.Motors.M2, motor.Dir.CCW, 20)
     motor.motor_run(motor.Motors.M3, motor.Dir.CW, 20)
-    motor.motor_run(motor.Motors.M4, motor.Dir.CW, 20)
+    motor.motor_run(motor.Motors.M4, motor.Dir.CCW, 20)
     basic.show_leds("""
         . . # . .
         . # . . .
