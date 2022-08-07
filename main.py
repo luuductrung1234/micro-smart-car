@@ -23,6 +23,7 @@ basic.forever(on_forever)
 # ========================================
 
 def on_received_value(name, value):
+    basic.show_string(name)
     if name == "mode":
         engine_stop()
         basic.show_string("M")

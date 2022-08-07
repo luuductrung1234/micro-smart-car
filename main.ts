@@ -21,6 +21,7 @@ basic.forever(function on_forever() {
 radio.onReceivedValue(function on_received_value(name: string, value: number) {
     let sender: number;
     let time: number;
+    basic.showString(name)
     if (name == "mode") {
         engine_stop()
         basic.showString("M")
