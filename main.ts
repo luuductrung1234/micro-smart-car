@@ -58,10 +58,18 @@ radio.onReceivedValue(function on_received_value(name: string, value: number) {
 //  BUTTON
 //  ========================================
 input.onButtonPressed(Button.A, function on_button_pressed_a() {
-    go_forward(50)
+    
+    if (currenct_direction == 4) {
+        currenct_direction = 1
+    } else {
+        currenct_direction += 1
+    }
+    
+    handle_direction(currenct_direction)
     
 })
 input.onButtonPressed(Button.B, function on_button_pressed_b() {
+    engine_stop()
     
 })
 //  ========================================
@@ -109,6 +117,7 @@ function engine_run(direction: number) {
     
     
     currenct_direction = direction
+    basic.showNumber(currenct_direction)
     if (currenct_direction == 1) {
         turn_left(current_speed)
     }
@@ -158,7 +167,6 @@ function go_backward(speed: number) {
 }
 
 function turn_right(speed: number) {
-    engine_stop()
     motor.MotorRun(motor.Motors.M1, motor.Dir.CCW, speed)
     motor.MotorRun(motor.Motors.M2, motor.Dir.CW, speed)
     motor.MotorRun(motor.Motors.M3, motor.Dir.CW, speed)
@@ -173,7 +181,6 @@ function turn_right(speed: number) {
 }
 
 function turn_left(speed: number) {
-    engine_stop()
     motor.MotorRun(motor.Motors.M1, motor.Dir.CW, speed)
     motor.MotorRun(motor.Motors.M2, motor.Dir.CCW, speed)
     motor.MotorRun(motor.Motors.M3, motor.Dir.CCW, speed)

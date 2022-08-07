@@ -51,10 +51,16 @@ radio.on_received_value(on_received_value)
 # ========================================
 
 def on_button_pressed_a():
-    go_forward(50)
+    global currenct_direction
+    if currenct_direction == 4:
+        currenct_direction = 1
+    else:
+        currenct_direction += 1
+    handle_direction(currenct_direction)
     pass
 
 def on_button_pressed_b():
+    engine_stop()
     pass
 
 input.on_button_pressed(Button.A, on_button_pressed_a)
@@ -95,6 +101,7 @@ def engine_run(direction: number):
     global current_speed
     global currenct_direction
     currenct_direction = direction
+    basic.show_number(currenct_direction)
     if currenct_direction == 1:
         turn_left(current_speed)
     if currenct_direction == 2:
@@ -133,7 +140,6 @@ def go_backward(speed: number):
     """)
 
 def turn_right(speed: number):
-    engine_stop()
     motor.motor_run(motor.Motors.M1, motor.Dir.CCW, speed)
     motor.motor_run(motor.Motors.M2, motor.Dir.CW, speed)
     motor.motor_run(motor.Motors.M3, motor.Dir.CW, speed)
@@ -147,7 +153,6 @@ def turn_right(speed: number):
     """)
 
 def turn_left(speed: number):
-    engine_stop()
     motor.motor_run(motor.Motors.M1, motor.Dir.CW, speed)
     motor.motor_run(motor.Motors.M2, motor.Dir.CCW, speed)
     motor.motor_run(motor.Motors.M3, motor.Dir.CCW, speed)
