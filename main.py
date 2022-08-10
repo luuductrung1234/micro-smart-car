@@ -14,7 +14,7 @@ def on_start():
     radio.set_group(2208061444)
 
 def on_forever():
-    basic.show_string("C") # Car
+    basic.show_string("1") # Car
     
 basic.forever(on_forever)
 
@@ -25,7 +25,7 @@ basic.forever(on_forever)
 def on_received_value(name, value):
     if name == "mode":
         engine_stop()
-        basic.show_string("M")
+        basic.show_string("0")
     if name == "steps":
         global signal
         signal = radio.received_packet(RadioPacketProperty.SIGNAL_STRENGTH)
@@ -41,6 +41,9 @@ def on_received_value(name, value):
         handle_direction(value)
     if name == "speed":
         handle_speed(value)
+    if name=="END":
+        engine_stop()
+
 
 radio.on_received_value(on_received_value)
 
@@ -107,7 +110,7 @@ def handle_run(is_run: number):
         engine_stop()
     if is_run == 1:
         current_is_run = 1
-        go_forward(current_speed)
+
 
 def handle_speed(speed: number):
     global current_is_run
@@ -147,6 +150,8 @@ def go_forward(speed: number):
         . . # . .
         . . # . .
     """)
+  
+    
 
 def go_backward(speed: number):
     engine_stop()
@@ -161,6 +166,9 @@ def go_backward(speed: number):
         . # # # .
         . . # . .
     """)
+   
+    
+
 
 def turn_right(speed: number):
     engine_stop()
@@ -174,6 +182,10 @@ def turn_right(speed: number):
         . . # . .
     """)
 
+    basic.pause(1000)
+    
+
+
 def turn_left(speed: number):
     engine_stop()
     motor.motor_run(motor.Motors.M3, motor.Dir.CW, speed + 30)
@@ -185,6 +197,11 @@ def turn_left(speed: number):
         . # . . .
         . . # . .
     """)
+
+  
+    basic.pause(1000)
+   
+        
 
 def engine_stop():
     motor.motor_run(motor.Motors.M1, motor.Dir.CCW, 0)

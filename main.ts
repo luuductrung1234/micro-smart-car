@@ -13,7 +13,7 @@ function on_start() {
 
 //  Car
 basic.forever(function on_forever() {
-    basic.showString("C")
+    basic.showString("1")
 })
 //  ========================================
 //  RADIO
@@ -23,7 +23,7 @@ radio.onReceivedValue(function on_received_value(name: string, value: number) {
     let time: number;
     if (name == "mode") {
         engine_stop()
-        basic.showString("M")
+        basic.showString("0")
     }
     
     if (name == "steps") {
@@ -49,6 +49,10 @@ radio.onReceivedValue(function on_received_value(name: string, value: number) {
     
     if (name == "speed") {
         handle_speed(value)
+    }
+    
+    if (name == "END") {
+        engine_stop()
     }
     
 })
@@ -117,7 +121,6 @@ function handle_run(is_run: number) {
     
     if (is_run == 1) {
         current_is_run = 1
-        go_forward(current_speed)
     }
     
 }
@@ -198,6 +201,7 @@ function turn_right(speed: number) {
         . . . # .
         . . # . .
     `)
+    basic.pause(1000)
 }
 
 function turn_left(speed: number) {
@@ -211,6 +215,7 @@ function turn_left(speed: number) {
         . # . . .
         . . # . .
     `)
+    basic.pause(1000)
 }
 
 function engine_stop() {

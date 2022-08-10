@@ -10,7 +10,8 @@
         "microturtle": "github:microsoft/pxt-microturtle#v0.0.9",
         "radio-broadcast": "*",
         "pxt-sonar": "github:microsoft/pxt-sonar#v0.0.5",
-        "Grove": "github:seeed-studio/pxt-grove#v0.5.0"
+        "Grove": "github:seeed-studio/pxt-grove#v0.5.0",
+        "smarthome-kit": "github:tinkertanker/pxt-smarthome#v2.2.1"
     },
     "files": [
         "main.blocks",
