@@ -82,7 +82,7 @@ input.onButtonPressed(Button.B, function on_button_pressed_b() {
     
 })
 //  ========================================
-//  MAIN
+//  HANDLER
 //  ========================================
 function handle_steps(sign: number) {
     
@@ -135,6 +135,9 @@ function handle_speed(speed: number) {
     engine_run(current_direction, current_speed)
 }
 
+//  ========================================
+//  ENGINE
+//  ========================================
 function engine_run(direction: number, speed: number) {
     if (direction == 1) {
         turn_left(speed)

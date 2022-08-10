@@ -10,8 +10,7 @@
         "microturtle": "github:microsoft/pxt-microturtle#v0.0.9",
         "radio-broadcast": "*",
         "pxt-sonar": "github:microsoft/pxt-sonar#v0.0.5",
-        "Grove": "github:seeed-studio/pxt-grove#v0.5.0",
-        "pxt-esp8266": "github:luuductrung1234/micro-smart-esp8266#master"
+        "Grove": "github:seeed-studio/pxt-grove#v0.5.0"
     },
     "files": [
         "main.blocks",

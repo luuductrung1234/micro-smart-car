@@ -79,7 +79,7 @@ input.on_button_pressed(Button.B, on_button_pressed_b)
 
 
 # ========================================
-# MAIN
+# HANDLER
 # ========================================
 
 def handle_steps(sign: number):
@@ -118,6 +118,11 @@ def handle_speed(speed: number):
         return
     current_speed = speed
     engine_run(current_direction, current_speed)
+
+
+# ========================================
+# ENGINE
+# ========================================
 
 def engine_run(direction: number, speed: number):
     if direction == 1:
