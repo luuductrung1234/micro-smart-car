@@ -259,8 +259,8 @@ function turn_right(speed: number, angle: number = null) {
 
 function turn_left(speed: number, angle: number = null) {
     engine_stop()
-    motor.MotorRun(motor.Motors.M3, motor.Dir.CW, speed + 40)
-    motor.MotorRun(motor.Motors.M4, motor.Dir.CCW, speed + 40)
+    motor.MotorRun(motor.Motors.M3, motor.Dir.CW, speed + 45)
+    motor.MotorRun(motor.Motors.M4, motor.Dir.CCW, speed + 45)
     basic.showLeds(`
         . . # . .
         . # . . .

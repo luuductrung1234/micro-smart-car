@@ -222,8 +222,8 @@ def turn_right(speed: number, angle: number = None):
 
 def turn_left(speed: number, angle: number = None):
     engine_stop()
-    motor.motor_run(motor.Motors.M3, motor.Dir.CW, speed + 40)
-    motor.motor_run(motor.Motors.M4, motor.Dir.CCW, speed + 40)
+    motor.motor_run(motor.Motors.M3, motor.Dir.CW, speed + 45)
+    motor.motor_run(motor.Motors.M4, motor.Dir.CCW, speed + 45)
     basic.show_leds("""
         . . # . .
         . # . . .
