@@ -237,8 +237,8 @@ function go_backward(speed: number) {
 
 function turn_right(speed: number, angle: number = null) {
     engine_stop()
-    motor.MotorRun(motor.Motors.M1, motor.Dir.CW, speed + 30)
-    motor.MotorRun(motor.Motors.M2, motor.Dir.CCW, speed + 30)
+    motor.MotorRun(motor.Motors.M1, motor.Dir.CW, speed + 20)
+    motor.MotorRun(motor.Motors.M2, motor.Dir.CCW, speed + 20)
     basic.showLeds(`
         . . # . .
         . . . # .
@@ -254,8 +254,8 @@ function turn_right(speed: number, angle: number = null) {
 
 function turn_left(speed: number, angle: number = null) {
     engine_stop()
-    motor.MotorRun(motor.Motors.M3, motor.Dir.CW, speed + 30)
-    motor.MotorRun(motor.Motors.M4, motor.Dir.CCW, speed + 30)
+    motor.MotorRun(motor.Motors.M3, motor.Dir.CW, speed + 20)
+    motor.MotorRun(motor.Motors.M4, motor.Dir.CCW, speed + 20)
     basic.showLeds(`
         . . # . .
         . # . . .
