@@ -120,7 +120,7 @@ def go_back_home():
 # ========================================
 
 def on_button_pressed_a():
-    start_delivery("1,r,l,l,r,l,r,2,u2")
+    start_delivery("r,l")
     pass
 
 def on_button_pressed_b():
@@ -238,7 +238,7 @@ def turn_right(speed: number, angle: number = None):
         . . # . .
     """)
     if angle is not None:
-        turn_with_compass(angle)
+        pause(angle * 5)
 
 def turn_left(speed: number, angle: number = None):
     engine_stop()
@@ -252,7 +252,7 @@ def turn_left(speed: number, angle: number = None):
         . . # . .
     """)
     if angle is not None:
-        turn_with_compass(angle)
+        pause(angle * 5)
         
 def engine_stop():
     motor.motor_run(motor.Motors.M1, motor.Dir.CCW, 0)

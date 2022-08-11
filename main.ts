@@ -150,7 +150,7 @@ input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
     
 })
 input.onButtonPressed(Button.A, function on_button_pressed_a() {
-    start_delivery("1,r,l,l,r,l,r,2,u2")
+    start_delivery("r,l")
     
 })
 input.onButtonPressed(Button.B, function on_button_pressed_b() {
@@ -279,7 +279,7 @@ function turn_right(speed: number, angle: number = null) {
         . . # . .
     `)
     if (angle !== null) {
-        turn_with_compass(angle)
+        pause(angle * 5)
     }
     
 }
@@ -296,7 +296,7 @@ function turn_left(speed: number, angle: number = null) {
         . . # . .
     `)
     if (angle !== null) {
-        turn_with_compass(angle)
+        pause(angle * 5)
     }
     
 }
@@ -309,7 +309,7 @@ function engine_stop() {
     
 }
 
-function turn_with_compass(expected_degrees: number) {
+function turn_with_compass(expected_degrees: any) {
     let opposit: number;
     let start_degrees = input.compassHeading()
     let end_degrees = input.compassHeading()
