@@ -42,6 +42,12 @@ def on_received_value(name, value):
     if name == "speed":
         handle_speed(value)
 
+def on_received_string(receivedString):
+    # code here
+    pass
+
+
+radio.on_received_string(on_received_string)
 radio.on_received_value(on_received_value)
 
 # ========================================

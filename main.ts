@@ -18,6 +18,10 @@ basic.forever(function on_forever() {
 //  ========================================
 //  RADIO
 //  ========================================
+radio.onReceivedString(function on_received_string(receivedString: string) {
+    //  code here
+    
+})
 radio.onReceivedValue(function on_received_value(name: string, value: number) {
     let sender: number;
     let time: number;
