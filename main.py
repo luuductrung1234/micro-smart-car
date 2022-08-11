@@ -4,6 +4,8 @@ signal = 0
 current_is_run = 0
 current_direction = 3
 current_speed = 30
+current_location=""
+
 
 # ========================================
 # BASIC
@@ -16,10 +18,12 @@ def on_start():
 def on_forever():
     basic.show_string("1") # Car
     
+    
 basic.forever(on_forever)
 
 # ========================================
 # RADIO
+
 # ========================================
 
 def on_received_value(name, value):
@@ -47,6 +51,29 @@ def on_received_value(name, value):
 
 radio.on_received_value(on_received_value)
 
+#l,3,r,2,l,3,r,2
+def on_received_string(decoded_path):
+    global current_location
+    basic.show_string("b")
+    current_location = decoded_path
+    handle_location(current_location)
+
+
+
+radio.on_received_string(on_received_string)
+
+
+
+
+
+
+
+
+
+
+
+
+
 # ========================================
 # BUTTON
 # ========================================
@@ -68,12 +95,8 @@ def on_button_pressed_a():
 
 def on_button_pressed_b():
     global current_is_run
-    global current_direction
-    global current_speed
-    
+
     current_is_run = 0
-    current_speed = 40
-    current_direction = 1
     engine_stop()
     pass
 
@@ -121,6 +144,36 @@ def handle_speed(speed: number):
         return
     current_speed = speed
     engine_run(current_direction, current_speed)
+
+def handle_location(curret_location:str):
+    global current_location
+    global current_direction
+    global current_speed
+
+    current_speed=30
+
+    location_array=current_location.split(",")
+    basic.show_string("a")
+    for i in location_array:
+        if i=='l':
+            current_direction=1
+            engine_run(current_direction, current_speed)
+            basic.pause(1000)
+
+        elif i=='r':
+            current_direction=2
+            engine_run(current_direction, current_speed)
+            basic.pause(1000)
+        
+        else:
+            forward_time=int(i)
+            current_direction=3
+            engine_run(current_direction, current_speed)
+            basic.pause(forward_time*1000)
+    basic.pause(100)
+
+
+    
 
 
 # ========================================
@@ -182,7 +235,7 @@ def turn_right(speed: number):
         . . # . .
     """)
 
-    basic.pause(1000)
+    
     
 
 
@@ -199,8 +252,6 @@ def turn_left(speed: number):
     """)
 
   
-    basic.pause(1000)
-   
         
 
 def engine_stop():

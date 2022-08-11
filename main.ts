@@ -3,6 +3,7 @@ let signal = 0
 let current_is_run = 0
 let current_direction = 3
 let current_speed = 30
+let current_location = ""
 //  ========================================
 //  BASIC
 //  ========================================
@@ -56,6 +57,13 @@ radio.onReceivedValue(function on_received_value(name: string, value: number) {
     }
     
 })
+// l,3,r,2,l,3,r,2
+radio.onReceivedString(function on_received_string(decoded_path: string) {
+    
+    basic.showString("b")
+    current_location = decoded_path
+    handle_location(current_location)
+})
 //  ========================================
 //  BUTTON
 //  ========================================
@@ -77,11 +85,7 @@ input.onButtonPressed(Button.A, function on_button_pressed_a() {
 })
 input.onButtonPressed(Button.B, function on_button_pressed_b() {
     
-    
-    
     current_is_run = 0
-    current_speed = 40
-    current_direction = 1
     engine_stop()
     
 })
@@ -136,6 +140,34 @@ function handle_speed(speed: number) {
     
     current_speed = speed
     engine_run(current_direction, current_speed)
+}
+
+function handle_location(curret_location: string) {
+    let forward_time: number;
+    
+    
+    
+    current_speed = 30
+    let location_array = _py.py_string_split(current_location, ",")
+    basic.showString("a")
+    for (let i of location_array) {
+        if (i == "l") {
+            current_direction = 1
+            engine_run(current_direction, current_speed)
+            basic.pause(1000)
+        } else if (i == "r") {
+            current_direction = 2
+            engine_run(current_direction, current_speed)
+            basic.pause(1000)
+        } else {
+            forward_time = parseInt(i)
+            current_direction = 3
+            engine_run(current_direction, current_speed)
+            basic.pause(forward_time * 1000)
+        }
+        
+    }
+    basic.pause(100)
 }
 
 //  ========================================
@@ -201,7 +233,6 @@ function turn_right(speed: number) {
         . . . # .
         . . # . .
     `)
-    basic.pause(1000)
 }
 
 function turn_left(speed: number) {
@@ -215,7 +246,6 @@ function turn_left(speed: number) {
         . # . . .
         . . # . .
     `)
-    basic.pause(1000)
 }
 
 function engine_stop() {
