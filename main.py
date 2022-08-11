@@ -80,11 +80,11 @@ def continue_delivery():
             finished_steps.push(step)
             index += 1
         elif step == "r":
-            turn_right(current_speed, 45)
+            turn_right(current_speed, 90)
             finished_steps.push(step)
             index += 1
         elif step == "l":
-            turn_left(current_speed, 45)
+            turn_left(current_speed, 90)
             finished_steps.push(step)
             index += 1
         else:
@@ -94,6 +94,26 @@ def continue_delivery():
     if index > 0:
         current_steps = current_steps[index:current_steps.length]
     pass
+
+def go_back_home():
+    if current_steps.length > 0 or finished_steps.length == 0:
+        return
+    basic.show_string("...")
+    basic.pause(5000)
+    basic.show_icon(IconNames.YES)
+    turn_right(current_speed, 90)
+    turn_right(current_speed, 90)
+    finished_steps = finished_steps[::-1]
+    for step in finished_steps:
+        basic.show_string(step)
+        if int(step) > 0:
+            go_forward(current_speed, int(step))
+        elif step == "r":
+            turn_left(current_speed, 90)
+        elif step == "l":
+            turn_right(current_speed, 90)
+        engine_stop()
+    finished_steps.clear()
 
 # ========================================
 # BUTTON
@@ -218,7 +238,7 @@ def turn_right(speed: number, angle: number = None):
         . . # . .
     """)
     if angle is not None:
-        basic.pause(angle * 14)
+        turn_with_compass(angle)
 
 def turn_left(speed: number, angle: number = None):
     engine_stop()
@@ -232,11 +252,72 @@ def turn_left(speed: number, angle: number = None):
         . . # . .
     """)
     if angle is not None:
-        basic.pause(angle * 14)
-
+        turn_with_compass(angle)
+        
 def engine_stop():
     motor.motor_run(motor.Motors.M1, motor.Dir.CCW, 0)
     motor.motor_run(motor.Motors.M2, motor.Dir.CW, 0)
     motor.motor_run(motor.Motors.M3, motor.Dir.CCW, 0)
     motor.motor_run(motor.Motors.M4, motor.Dir.CW, 0)
     pass
+
+def turn_with_compass(expected_degrees):
+    start_degrees = input.compass_heading()
+    end_degrees = input.compass_heading()
+    #basic.show_number(start_degrees)
+    #basic.show_icon(IconNames.HAPPY)
+    while(True):
+        if start_degrees <= 90:
+            opposit = start_degrees + 180
+            if end_degrees >= 270 and 360 - end_degrees + start_degrees >= expected_degrees:
+                #basic.show_string("L")
+                break
+            if end_degrees >= 0 and start_degrees - end_degrees >= expected_degrees:
+                #basic.show_string("L")
+                break
+            if end_degrees > opposit and end_degrees < 270:
+                #basic.show_string("L")
+                break
+            if end_degrees <= 180 and end_degrees - start_degrees >= expected_degrees:
+                #basic.show_string("R")
+                break
+            if end_degrees < opposit and end_degrees > 180:
+                #basic.show_string("R")
+                break
+        elif start_degrees <= 180:
+            opposit = start_degrees + 180
+            if start_degrees - end_degrees >= expected_degrees:
+                #basic.show_string("L")
+                break
+            if end_degrees - start_degrees >= expected_degrees:
+                #basic.show_string("R")
+                break
+        elif start_degrees <= 270:
+            opposit = start_degrees - 180
+            if start_degrees - end_degrees >= expected_degrees:
+                #basic.show_string("L")
+                break
+            if end_degrees - start_degrees >= expected_degrees:
+                #basic.show_string("R")
+                break
+            if end_degrees >= 0 and end_degrees <= 90 and end_degrees < opposit:
+                #basic.show_string("L")
+                break
+            if end_degrees >= 0 and end_degrees <= 90 and end_degrees > opposit:
+                #basic.show_string("R")
+                break
+        elif start_degrees <= 360:
+            opposit = start_degrees - 180
+            if end_degrees >= 180 and start_degrees - end_degrees >= expected_degrees:
+                #basic.show_string("L")
+                break
+            if end_degrees <= 90 and 360 - start_degrees + end_degrees >= expected_degrees:
+                #basic.show_string("R")
+                break
+            if end_degrees > opposit and end_degrees < 180:
+                #basic.show_string("L")
+                break
+            if end_degrees < opposit and end_degrees > 90:
+                #basic.show_string("R")
+                break
+        end_degrees = input.compass_heading()

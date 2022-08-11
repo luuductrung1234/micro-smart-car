@@ -91,11 +91,11 @@ function continue_delivery() {
             finished_steps.push(step)
             index += 1
         } else if (step == "r") {
-            turn_right(current_speed, 45)
+            turn_right(current_speed, 90)
             finished_steps.push(step)
             index += 1
         } else if (step == "l") {
-            turn_left(current_speed, 45)
+            turn_left(current_speed, 90)
             finished_steps.push(step)
             index += 1
         } else {
@@ -110,6 +110,33 @@ function continue_delivery() {
     }
     
     
+}
+
+function go_back_home() {
+    let finished_steps: string[];
+    if (current_steps.length > 0 || finished_steps.length == 0) {
+        return
+    }
+    
+    basic.showString("...")
+    basic.pause(5000)
+    basic.showIcon(IconNames.Yes)
+    turn_right(current_speed, 90)
+    turn_right(current_speed, 90)
+    finished_steps = _py.slice(finished_steps, null, null, -1)
+    for (let step of finished_steps) {
+        basic.showString(step)
+        if (parseInt(step) > 0) {
+            go_forward(current_speed, parseInt(step))
+        } else if (step == "r") {
+            turn_left(current_speed, 90)
+        } else if (step == "l") {
+            turn_right(current_speed, 90)
+        }
+        
+        engine_stop()
+    }
+    _py.py_array_clear(finished_steps)
 }
 
 //  ========================================
@@ -252,7 +279,7 @@ function turn_right(speed: number, angle: number = null) {
         . . # . .
     `)
     if (angle !== null) {
-        basic.pause(angle * 14)
+        turn_with_compass(angle)
     }
     
 }
@@ -269,7 +296,7 @@ function turn_left(speed: number, angle: number = null) {
         . . # . .
     `)
     if (angle !== null) {
-        basic.pause(angle * 14)
+        turn_with_compass(angle)
     }
     
 }
@@ -280,5 +307,101 @@ function engine_stop() {
     motor.MotorRun(motor.Motors.M3, motor.Dir.CCW, 0)
     motor.MotorRun(motor.Motors.M4, motor.Dir.CW, 0)
     
+}
+
+function turn_with_compass(expected_degrees: number) {
+    let opposit: number;
+    let start_degrees = input.compassHeading()
+    let end_degrees = input.compassHeading()
+    // basic.show_number(start_degrees)
+    // basic.show_icon(IconNames.HAPPY)
+    while (true) {
+        if (start_degrees <= 90) {
+            opposit = start_degrees + 180
+            if (end_degrees >= 270 && 360 - end_degrees + start_degrees >= expected_degrees) {
+                // basic.show_string("L")
+                break
+            }
+            
+            if (end_degrees >= 0 && start_degrees - end_degrees >= expected_degrees) {
+                // basic.show_string("L")
+                break
+            }
+            
+            if (end_degrees > opposit && end_degrees < 270) {
+                // basic.show_string("L")
+                break
+            }
+            
+            if (end_degrees <= 180 && end_degrees - start_degrees >= expected_degrees) {
+                // basic.show_string("R")
+                break
+            }
+            
+            if (end_degrees < opposit && end_degrees > 180) {
+                // basic.show_string("R")
+                break
+            }
+            
+        } else if (start_degrees <= 180) {
+            opposit = start_degrees + 180
+            if (start_degrees - end_degrees >= expected_degrees) {
+                // basic.show_string("L")
+                break
+            }
+            
+            if (end_degrees - start_degrees >= expected_degrees) {
+                // basic.show_string("R")
+                break
+            }
+            
+        } else if (start_degrees <= 270) {
+            opposit = start_degrees - 180
+            if (start_degrees - end_degrees >= expected_degrees) {
+                // basic.show_string("L")
+                break
+            }
+            
+            if (end_degrees - start_degrees >= expected_degrees) {
+                // basic.show_string("R")
+                break
+            }
+            
+            if (end_degrees >= 0 && end_degrees <= 90 && end_degrees < opposit) {
+                // basic.show_string("L")
+                break
+            }
+            
+            if (end_degrees >= 0 && end_degrees <= 90 && end_degrees > opposit) {
+                // basic.show_string("R")
+                break
+            }
+            
+        } else if (start_degrees <= 360) {
+            opposit = start_degrees - 180
+            if (end_degrees >= 180 && start_degrees - end_degrees >= expected_degrees) {
+                // basic.show_string("L")
+                break
+            }
+            
+            if (end_degrees <= 90 && 360 - start_degrees + end_degrees >= expected_degrees) {
+                // basic.show_string("R")
+                break
+            }
+            
+            if (end_degrees > opposit && end_degrees < 180) {
+                // basic.show_string("L")
+                break
+            }
+            
+            if (end_degrees < opposit && end_degrees > 90) {
+                // basic.show_string("R")
+                break
+            }
+            
+        }
+        
+        end_degrees = input.compassHeading()
+    }
 }
 
