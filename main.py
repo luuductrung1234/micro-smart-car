@@ -38,8 +38,10 @@ def on_received_value(name, value):
 
 def on_received_string(receivedString):
     if "start:" in receivedString:
+        basic.show_string("a")
         start_delivery(receivedString.split(":")[1])
     if "answer:" in receivedString:
+        basic.show_string("b")
         update_delivery(receivedString.split(":")[1], receivedString.split(":")[2])
     pass
 

@@ -22,10 +22,12 @@ basic.forever(function on_forever() {
 //  ========================================
 radio.onReceivedString(function on_received_string(receivedString: string) {
     if (receivedString.indexOf("start:") >= 0) {
+        basic.showString("a")
         start_delivery(_py.py_string_split(receivedString, ":")[1])
     }
     
     if (receivedString.indexOf("answer:") >= 0) {
+        basic.showString("b")
         update_delivery(_py.py_string_split(receivedString, ":")[1], _py.py_string_split(receivedString, ":")[2])
     }
     
