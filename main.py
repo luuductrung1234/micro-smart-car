@@ -62,6 +62,7 @@ def update_delivery(old_step: string, new_path: string):
     if old_step not in current_steps:
         return
     new_steps = new_path.split(",")
+    current_steps.remove_element(old_step)
     current_steps = new_steps + current_steps
     pass
 
@@ -80,18 +81,16 @@ def continue_delivery():
             index += 1
         elif step == "r":
             turn_right(current_speed, 45)
-            engine_stop()
             finished_steps.push(step)
             index += 1
         elif step == "l":
             turn_left(current_speed, 45)
-            engine_stop()
             finished_steps.push(step)
             index += 1
         else:
-            engine_stop()
             radio.send_string("request:" + step)
             break
+        engine_stop()
     if index > 0:
         current_steps = current_steps[index:current_steps.length]
     pass
@@ -190,7 +189,7 @@ def go_forward(speed: number, length: number = 0):
         . . # . .
     """)
     if length > 0:
-        basic.pause(length * 200)
+        basic.pause(length * 250)
 
 
 def go_backward(speed: number):
@@ -219,7 +218,7 @@ def turn_right(speed: number, angle: number = None):
         . . # . .
     """)
     if angle is not None:
-        basic.pause(angle * 30)
+        basic.pause(angle * 40)
 
 def turn_left(speed: number, angle: number = None):
     engine_stop()
@@ -233,7 +232,7 @@ def turn_left(speed: number, angle: number = None):
         . . # . .
     """)
     if angle is not None:
-        basic.pause(angle * 30)
+        basic.pause(angle * 40)
 
 def engine_stop():
     motor.motor_run(motor.Motors.M1, motor.Dir.CCW, 0)

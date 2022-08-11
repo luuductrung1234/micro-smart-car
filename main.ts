@@ -72,6 +72,7 @@ function update_delivery(old_step: string, new_path: string) {
     }
     
     let new_steps = _py.py_string_split(new_path, ",")
+    current_steps.removeElement(old_step)
     current_steps = new_steps.concat(current_steps)
     
 }
@@ -91,20 +92,18 @@ function continue_delivery() {
             index += 1
         } else if (step == "r") {
             turn_right(current_speed, 45)
-            engine_stop()
             finished_steps.push(step)
             index += 1
         } else if (step == "l") {
             turn_left(current_speed, 45)
-            engine_stop()
             finished_steps.push(step)
             index += 1
         } else {
-            engine_stop()
             radio.sendString("request:" + step)
             break
         }
         
+        engine_stop()
     }
     if (index > 0) {
         current_steps = current_steps.slice(index, current_steps.length)
@@ -221,7 +220,7 @@ function go_forward(speed: number, length: number = 0) {
         . . # . .
     `)
     if (length > 0) {
-        basic.pause(length * 200)
+        basic.pause(length * 250)
     }
     
 }
@@ -253,7 +252,7 @@ function turn_right(speed: number, angle: number = null) {
         . . # . .
     `)
     if (angle !== null) {
-        basic.pause(angle * 30)
+        basic.pause(angle * 40)
     }
     
 }
@@ -270,7 +269,7 @@ function turn_left(speed: number, angle: number = null) {
         . . # . .
     `)
     if (angle !== null) {
-        basic.pause(angle * 30)
+        basic.pause(angle * 40)
     }
     
 }
