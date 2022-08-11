@@ -15,7 +15,8 @@ def on_start():
 def on_forever():
     basic.show_string("C") # Car
     continue_delivery()
-    
+
+on_start()
 basic.forever(on_forever)
 
 # ========================================
@@ -52,6 +53,7 @@ radio.on_received_value(on_received_value)
 def start_delivery(path: string):
     global current_steps
     current_steps = path.split(",")
+    basic.show_string("a")
     pass
 
 def update_delivery(old_step: string, new_path: string):
@@ -60,6 +62,7 @@ def update_delivery(old_step: string, new_path: string):
         return
     new_steps = new_path.split(",")
     current_steps = new_steps + current_steps
+    basic.show_string("b")
     pass
 
 def continue_delivery():
@@ -87,6 +90,7 @@ def continue_delivery():
         index += 1
     for finished_index in finished_indexes:
         current_steps.remove_at(finished_index)
+    basic.show_string("c")
     pass
 
 # ========================================
