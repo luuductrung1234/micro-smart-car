@@ -189,7 +189,7 @@ def go_forward(speed: number, length: number = 0):
         . . # . .
     """)
     if length > 0:
-        basic.pause(length * 250)
+        basic.pause(length * 500)
 
 
 def go_backward(speed: number):
