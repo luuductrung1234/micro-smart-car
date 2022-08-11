@@ -72,6 +72,7 @@ def continue_delivery():
     finished_indexes = []
     index = 0
     for step in current_steps:
+        basic.show_string(step)
         if step.isnumeric():
             go_forward(current_speed, int(step))
             finished_steps.push(step)
@@ -98,11 +99,11 @@ def continue_delivery():
 # ========================================
 
 def on_button_pressed_a():
-    start_delivery('1,r,l,2,u2')
+    start_delivery("1,r,l,2,u2")
     pass
 
 def on_button_pressed_b():
-    update_delivery('u2', 'r,2,l')
+    update_delivery("u2", "r,2,l")
     pass
 
 def on_button_pressed_ab():
