@@ -1,6 +1,6 @@
 let current_is_run = 0
 let current_direction = 3
-let current_speed = 30
+let current_speed = 40
 let current_steps = [""]
 let finished_steps = [""]
 //  ========================================
@@ -60,7 +60,6 @@ radio.onReceivedValue(function on_received_value(name: string, value: number) {
 function start_delivery(path: string) {
     
     current_steps = _py.py_string_split(path, ",")
-    basic.showString("a")
     
 }
 
@@ -72,7 +71,6 @@ function update_delivery(old_step: string, new_path: string) {
     
     let new_steps = _py.py_string_split(new_path, ",")
     current_steps = new_steps.concat(current_steps)
-    basic.showString("b")
     
 }
 
@@ -106,7 +104,6 @@ function continue_delivery() {
     for (let finished_index of finished_indexes) {
         current_steps.removeAt(finished_index)
     }
-    basic.showString("c")
     
 }
 

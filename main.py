@@ -1,6 +1,6 @@
 current_is_run = 0
 current_direction = 3
-current_speed = 30
+current_speed = 40
 current_steps = [""]
 finished_steps = [""]
 
@@ -53,7 +53,6 @@ radio.on_received_value(on_received_value)
 def start_delivery(path: string):
     global current_steps
     current_steps = path.split(",")
-    basic.show_string("a")
     pass
 
 def update_delivery(old_step: string, new_path: string):
@@ -62,7 +61,6 @@ def update_delivery(old_step: string, new_path: string):
         return
     new_steps = new_path.split(",")
     current_steps = new_steps + current_steps
-    basic.show_string("b")
     pass
 
 def continue_delivery():
@@ -91,7 +89,6 @@ def continue_delivery():
         index += 1
     for finished_index in finished_indexes:
         current_steps.remove_at(finished_index)
-    basic.show_string("c")
     pass
 
 # ========================================
