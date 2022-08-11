@@ -1,8 +1,8 @@
-let LIMITED_DISTANCE = -40
-let signal = 0
 let current_is_run = 0
 let current_direction = 3
 let current_speed = 30
+let current_steps = [""]
+let finished_steps = [""]
 //  ========================================
 //  BASIC
 //  ========================================
@@ -11,35 +11,32 @@ function on_start() {
     radio.setGroup(2208061444)
 }
 
-//  Car
 basic.forever(function on_forever() {
     basic.showString("C")
+    //  Car
+    continue_delivery()
 })
 //  ========================================
 //  RADIO
 //  ========================================
 radio.onReceivedString(function on_received_string(receivedString: string) {
-    //  code here
+    if (receivedString.indexOf("start:") >= 0) {
+        start_delivery(_py.py_string_split(receivedString, ":")[1])
+    }
+    
+    if (receivedString.indexOf("answer:") >= 0) {
+        update_delivery(_py.py_string_split(receivedString, ":")[1], _py.py_string_split(receivedString, ":")[2])
+    }
+    
     
 })
 radio.onReceivedValue(function on_received_value(name: string, value: number) {
-    let sender: number;
-    let time: number;
     if (name == "mode") {
         engine_stop()
         basic.showString("M")
     }
     
     if (name == "steps") {
-        
-        signal = radio.receivedPacket(RadioPacketProperty.SignalStrength)
-        sender = radio.receivedPacket(RadioPacketProperty.SerialNumber)
-        time = radio.receivedPacket(RadioPacketProperty.Time)
-        basic.showString("" + signal)
-        if (signal <= LIMITED_DISTANCE) {
-            handle_steps(value)
-        }
-        
         basic.showString("S")
     }
     
@@ -56,6 +53,58 @@ radio.onReceivedValue(function on_received_value(name: string, value: number) {
     }
     
 })
+//  ========================================
+//  DELIVERY
+//  ========================================
+function start_delivery(path: string) {
+    
+    current_steps = _py.py_string_split(path, ",")
+    
+}
+
+function update_delivery(old_step: string, new_path: string) {
+    
+    if (current_steps.indexOf(old_step) < 0) {
+        return
+    }
+    
+    let new_steps = _py.py_string_split(new_path, ",")
+    current_steps = new_steps.concat(current_steps)
+    
+}
+
+function continue_delivery() {
+    
+    
+    
+    let finished_indexes = []
+    let index = 0
+    for (let step of current_steps) {
+        if (_py.py_string_isnumeric(step)) {
+            go_forward(current_speed, parseInt(step))
+            finished_steps.push(step)
+            finished_indexes.push(index)
+        } else if (step == "r") {
+            turn_right(current_speed, 45)
+            finished_steps.push(step)
+            finished_indexes.push(index)
+        } else if (step == "l") {
+            turn_left(current_speed, 45)
+            finished_steps.push(step)
+            finished_indexes.push(index)
+        } else {
+            radio.sendString("request:" + step)
+            break
+        }
+        
+        index += 1
+    }
+    for (let finished_index of finished_indexes) {
+        current_steps.removeAt(finished_index)
+    }
+    
+}
+
 //  ========================================
 //  BUTTON
 //  ========================================
@@ -161,7 +210,7 @@ function engine_run(direction: number, speed: number) {
     
 }
 
-function go_forward(speed: number) {
+function go_forward(speed: number, length: number = 0) {
     engine_stop()
     motor.MotorRun(motor.Motors.M1, motor.Dir.CW, speed)
     motor.MotorRun(motor.Motors.M2, motor.Dir.CCW, speed)
@@ -174,6 +223,10 @@ function go_forward(speed: number) {
         . . # . .
         . . # . .
     `)
+    if (length > 0) {
+        basic.pause(length * 100)
+    }
+    
 }
 
 function go_backward(speed: number) {
@@ -191,7 +244,7 @@ function go_backward(speed: number) {
     `)
 }
 
-function turn_right(speed: number) {
+function turn_right(speed: number, angle: number = null) {
     engine_stop()
     motor.MotorRun(motor.Motors.M1, motor.Dir.CW, speed + 30)
     motor.MotorRun(motor.Motors.M2, motor.Dir.CCW, speed + 30)
@@ -202,9 +255,13 @@ function turn_right(speed: number) {
         . . . # .
         . . # . .
     `)
+    if (angle !== null) {
+        basic.pause(angle * 10)
+    }
+    
 }
 
-function turn_left(speed: number) {
+function turn_left(speed: number, angle: number = null) {
     engine_stop()
     motor.MotorRun(motor.Motors.M3, motor.Dir.CW, speed + 30)
     motor.MotorRun(motor.Motors.M4, motor.Dir.CCW, speed + 30)
@@ -215,6 +272,10 @@ function turn_left(speed: number) {
         . # . . .
         . . # . .
     `)
+    if (angle !== null) {
+        basic.pause(angle * 10)
+    }
+    
 }
 
 function engine_stop() {
