@@ -252,7 +252,7 @@ function turn_right(speed: number, angle: number = null) {
         . . # . .
     `)
     if (angle !== null) {
-        basic.pause(angle * 15)
+        basic.pause(angle * 16)
     }
     
 }
@@ -269,7 +269,7 @@ function turn_left(speed: number, angle: number = null) {
         . . # . .
     `)
     if (angle !== null) {
-        basic.pause(angle * 15)
+        basic.pause(angle * 16)
     }
     
 }
