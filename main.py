@@ -69,28 +69,28 @@ def continue_delivery():
     global current_steps
     global finished_steps
     global current_speed
-    finished_indexes = []
     index = 0
+    current_steps.remove_element("")
+    finished_steps.remove_element("")
     for step in current_steps:
         basic.show_string(step)
         if int(step) > 0:
             go_forward(current_speed, int(step))
             finished_steps.push(step)
-            finished_indexes.push(index)
+            index += 1
         elif step == "r":
             turn_right(current_speed, 45)
             finished_steps.push(step)
-            finished_indexes.push(index)
+            index += 1
         elif step == "l":
             turn_left(current_speed, 45)
             finished_steps.push(step)
-            finished_indexes.push(index)
+            index += 1
         else:
             radio.send_string("request:" + step)
             break
-        index += 1
-    for finished_index in finished_indexes:
-        current_steps.remove_at(finished_index)
+    if index > 0:
+        current_steps = current_steps[index:current_steps.length]
     pass
 
 # ========================================

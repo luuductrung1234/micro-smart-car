@@ -80,32 +80,33 @@ function continue_delivery() {
     
     
     
-    let finished_indexes = []
     let index = 0
+    current_steps.removeElement("")
+    finished_steps.removeElement("")
     for (let step of current_steps) {
         basic.showString(step)
         if (parseInt(step) > 0) {
             go_forward(current_speed, parseInt(step))
             finished_steps.push(step)
-            finished_indexes.push(index)
+            index += 1
         } else if (step == "r") {
             turn_right(current_speed, 45)
             finished_steps.push(step)
-            finished_indexes.push(index)
+            index += 1
         } else if (step == "l") {
             turn_left(current_speed, 45)
             finished_steps.push(step)
-            finished_indexes.push(index)
+            index += 1
         } else {
             radio.sendString("request:" + step)
             break
         }
         
-        index += 1
     }
-    for (let finished_index of finished_indexes) {
-        current_steps.removeAt(finished_index)
+    if (index > 0) {
+        current_steps = current_steps.slice(index, current_steps.length)
     }
+    
     
 }
 
