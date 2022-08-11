@@ -91,13 +91,16 @@ function continue_delivery() {
             index += 1
         } else if (step == "r") {
             turn_right(current_speed, 45)
+            engine_stop()
             finished_steps.push(step)
             index += 1
         } else if (step == "l") {
             turn_left(current_speed, 45)
+            engine_stop()
             finished_steps.push(step)
             index += 1
         } else {
+            engine_stop()
             radio.sendString("request:" + step)
             break
         }
@@ -218,7 +221,7 @@ function go_forward(speed: number, length: number = 0) {
         . . # . .
     `)
     if (length > 0) {
-        basic.pause(length * 100)
+        basic.pause(length * 200)
     }
     
 }
@@ -250,7 +253,7 @@ function turn_right(speed: number, angle: number = null) {
         . . # . .
     `)
     if (angle !== null) {
-        basic.pause(angle * 10)
+        basic.pause(angle * 30)
     }
     
 }
@@ -267,7 +270,7 @@ function turn_left(speed: number, angle: number = null) {
         . . # . .
     `)
     if (angle !== null) {
-        basic.pause(angle * 10)
+        basic.pause(angle * 30)
     }
     
 }
