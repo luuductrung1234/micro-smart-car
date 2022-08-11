@@ -108,30 +108,19 @@ function continue_delivery() {
 //  ========================================
 //  BUTTON
 //  ========================================
+input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
+    
+    
+    current_steps = [""]
+    finished_steps = [""]
+    
+})
 input.onButtonPressed(Button.A, function on_button_pressed_a() {
-    
-    
-    
-    current_is_run = 1
-    current_speed = 40
-    let expected_direction = 0
-    if (current_direction == 4) {
-        expected_direction = 1
-    } else {
-        expected_direction = current_direction + 1
-    }
-    
-    handle_direction(expected_direction)
+    start_delivery("1,r,l,2,u2")
     
 })
 input.onButtonPressed(Button.B, function on_button_pressed_b() {
-    
-    
-    
-    current_is_run = 0
-    current_speed = 40
-    current_direction = 1
-    engine_stop()
+    update_delivery("u2", "r,2,l")
     
 })
 //  ========================================

@@ -94,31 +94,21 @@ def continue_delivery():
 # ========================================
 
 def on_button_pressed_a():
-    global current_is_run
-    global current_direction
-    global current_speed
-
-    current_is_run = 1
-    current_speed = 40
-    expected_direction = 0
-    if current_direction == 4:
-        expected_direction = 1
-    else:
-        expected_direction = current_direction + 1
-    handle_direction(expected_direction)
+    start_delivery('1,r,l,2,u2')
     pass
 
 def on_button_pressed_b():
-    global current_is_run
-    global current_direction
-    global current_speed
-    
-    current_is_run = 0
-    current_speed = 40
-    current_direction = 1
-    engine_stop()
+    update_delivery('u2', 'r,2,l')
     pass
 
+def on_button_pressed_ab():
+    global current_steps
+    global finished_steps
+    current_steps = ['']
+    finished_steps = ['']
+    pass
+
+input.on_button_pressed(Button.AB, on_button_pressed_ab)
 input.on_button_pressed(Button.A, on_button_pressed_a)
 input.on_button_pressed(Button.B, on_button_pressed_b)
 
