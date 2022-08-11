@@ -21,12 +21,12 @@ basic.forever(function on_forever() {
 //  RADIO
 //  ========================================
 radio.onReceivedString(function on_received_string(receivedString: string) {
-    if (receivedString.indexOf("start:") >= 0) {
+    if (receivedString.indexOf("s:") >= 0) {
         basic.showString("a")
         start_delivery(_py.py_string_split(receivedString, ":")[1])
     }
     
-    if (receivedString.indexOf("answer:") >= 0) {
+    if (receivedString.indexOf("a:") >= 0) {
         basic.showString("b")
         update_delivery(_py.py_string_split(receivedString, ":")[1], _py.py_string_split(receivedString, ":")[2])
     }
@@ -99,7 +99,7 @@ function continue_delivery() {
             finished_steps.push(step)
             index += 1
         } else {
-            radio.sendString("request:" + step)
+            radio.sendString("r:" + step)
             break
         }
         
@@ -252,7 +252,7 @@ function turn_right(speed: number, angle: number = null) {
         . . # . .
     `)
     if (angle !== null) {
-        basic.pause(angle * 12)
+        basic.pause(angle * 14)
     }
     
 }
@@ -269,7 +269,7 @@ function turn_left(speed: number, angle: number = null) {
         . . # . .
     `)
     if (angle !== null) {
-        basic.pause(angle * 12)
+        basic.pause(angle * 14)
     }
     
 }

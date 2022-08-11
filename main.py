@@ -37,10 +37,10 @@ def on_received_value(name, value):
         handle_speed(value)
 
 def on_received_string(receivedString):
-    if "start:" in receivedString:
+    if "s:" in receivedString:
         basic.show_string("a")
         start_delivery(receivedString.split(":")[1])
-    if "answer:" in receivedString:
+    if "a:" in receivedString:
         basic.show_string("b")
         update_delivery(receivedString.split(":")[1], receivedString.split(":")[2])
     pass
@@ -88,7 +88,7 @@ def continue_delivery():
             finished_steps.push(step)
             index += 1
         else:
-            radio.send_string("request:" + step)
+            radio.send_string("r:" + step)
             break
         engine_stop()
     if index > 0:
@@ -218,7 +218,7 @@ def turn_right(speed: number, angle: number = None):
         . . # . .
     """)
     if angle is not None:
-        basic.pause(angle * 12)
+        basic.pause(angle * 14)
 
 def turn_left(speed: number, angle: number = None):
     engine_stop()
@@ -232,7 +232,7 @@ def turn_left(speed: number, angle: number = None):
         . . # . .
     """)
     if angle is not None:
-        basic.pause(angle * 12)
+        basic.pause(angle * 14)
 
 def engine_stop():
     motor.motor_run(motor.Motors.M1, motor.Dir.CCW, 0)
