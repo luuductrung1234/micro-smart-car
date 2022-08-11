@@ -84,7 +84,7 @@ function continue_delivery() {
     let index = 0
     for (let step of current_steps) {
         basic.showString(step)
-        if (_py.py_string_isnumeric(step)) {
+        if (parseInt(step) > 0) {
             go_forward(current_speed, parseInt(step))
             finished_steps.push(step)
             finished_indexes.push(index)

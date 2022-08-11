@@ -1,8 +1,8 @@
 current_is_run = 0
 current_direction = 3
 current_speed = 30
-current_steps = ['']
-finished_steps = ['']
+current_steps = [""]
+finished_steps = [""]
 
 # ========================================
 # BASIC
@@ -73,7 +73,7 @@ def continue_delivery():
     index = 0
     for step in current_steps:
         basic.show_string(step)
-        if step.isnumeric():
+        if int(step) > 0:
             go_forward(current_speed, int(step))
             finished_steps.push(step)
             finished_indexes.push(index)
