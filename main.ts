@@ -123,7 +123,7 @@ input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
     
 })
 input.onButtonPressed(Button.A, function on_button_pressed_a() {
-    start_delivery("1,r,l,2,u2")
+    start_delivery("1,r,l,l,r,l,r,2,u2")
     
 })
 input.onButtonPressed(Button.B, function on_button_pressed_b() {

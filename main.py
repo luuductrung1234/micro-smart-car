@@ -100,7 +100,7 @@ def continue_delivery():
 # ========================================
 
 def on_button_pressed_a():
-    start_delivery("1,r,l,2,u2")
+    start_delivery("1,r,l,l,r,l,r,2,u2")
     pass
 
 def on_button_pressed_b():
