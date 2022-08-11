@@ -208,8 +208,8 @@ def go_backward(speed: number):
 
 def turn_right(speed: number, angle: number = None):
     engine_stop()
-    motor.motor_run(motor.Motors.M1, motor.Dir.CW, speed + 30)
-    motor.motor_run(motor.Motors.M2, motor.Dir.CCW, speed + 30)
+    motor.motor_run(motor.Motors.M1, motor.Dir.CW, speed + 40)
+    motor.motor_run(motor.Motors.M2, motor.Dir.CCW, speed + 40)
     basic.show_leds("""
         . . # . .
         . . . # .
@@ -218,12 +218,12 @@ def turn_right(speed: number, angle: number = None):
         . . # . .
     """)
     if angle is not None:
-        basic.pause(angle * 25)
+        basic.pause(angle * 10)
 
 def turn_left(speed: number, angle: number = None):
     engine_stop()
-    motor.motor_run(motor.Motors.M3, motor.Dir.CW, speed + 30)
-    motor.motor_run(motor.Motors.M4, motor.Dir.CCW, speed + 30)
+    motor.motor_run(motor.Motors.M3, motor.Dir.CW, speed + 40)
+    motor.motor_run(motor.Motors.M4, motor.Dir.CCW, speed + 40)
     basic.show_leds("""
         . . # . .
         . # . . .
@@ -232,7 +232,7 @@ def turn_left(speed: number, angle: number = None):
         . . # . .
     """)
     if angle is not None:
-        basic.pause(angle * 25)
+        basic.pause(angle * 10)
 
 def engine_stop():
     motor.motor_run(motor.Motors.M1, motor.Dir.CCW, 0)
