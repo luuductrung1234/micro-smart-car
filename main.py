@@ -1,6 +1,8 @@
 current_is_run = 0
 current_direction = 3
 current_speed = 40
+go_out_spot_steps = ["1", "l"]
+go_in_spot_steps = ["l", "-1"]
 current_steps = [""]
 finished_steps = [""]
 
@@ -55,6 +57,7 @@ radio.on_received_value(on_received_value)
 def start_delivery(path: string):
     global current_steps
     current_steps = path.split(",")
+    go_out_spot()
     pass
 
 def update_delivery(old_step: string, new_path: string):
@@ -73,6 +76,8 @@ def continue_delivery():
     index = 0
     current_steps.remove_element("")
     finished_steps.remove_element("")
+    if current_steps.length == 0:
+        return
     for step in current_steps:
         basic.show_string(step)
         if int(step) > 0:
@@ -93,9 +98,13 @@ def continue_delivery():
         engine_stop()
     if index > 0:
         current_steps = current_steps[index:current_steps.length]
+    go_back_home()
     pass
 
 def go_back_home():
+    global current_steps
+    global finished_steps
+    global current_speed
     if current_steps.length > 0 or finished_steps.length == 0:
         return
     basic.show_string("...")
@@ -113,7 +122,39 @@ def go_back_home():
         elif step == "l":
             turn_right(current_speed, 90)
         engine_stop()
+    go_in_spot()
     finished_steps.clear()
+    pass
+
+def go_out_spot():
+    global go_out_spot_steps
+    for step in go_out_spot_steps:
+        basic.show_string(step)
+        if int(step) > 0:
+            go_forward(current_speed, int(step))
+        if int(step) < 0:
+            go_backward(current_speed, int(step))
+        elif step == "r":
+            turn_right(current_speed, 90)
+        elif step == "l":
+            turn_left(current_speed, 90)
+        engine_stop()
+    pass
+
+def go_in_spot():
+    global go_in_spot_steps
+    for step in go_in_spot_steps:
+        basic.show_string(step)
+        if int(step) > 0:
+            go_forward(current_speed, int(step))
+        if int(step) < 0:
+            go_backward(current_speed, int(step))
+        elif step == "r":
+            turn_right(current_speed, 90)
+        elif step == "l":
+            turn_left(current_speed, 90)
+        engine_stop()
+    pass
 
 # ========================================
 # BUTTON
@@ -130,8 +171,8 @@ def on_button_pressed_b():
 def on_button_pressed_ab():
     global current_steps
     global finished_steps
-    current_steps = ['']
-    finished_steps = ['']
+    current_steps.clear()
+    finished_steps.clear()
     pass
 
 input.on_button_pressed(Button.AB, on_button_pressed_ab)
@@ -212,7 +253,7 @@ def go_forward(speed: number, length: number = 0):
         basic.pause(length * 1500)
 
 
-def go_backward(speed: number):
+def go_backward(speed: number, length: number = 0):
     engine_stop()
     motor.motor_run(motor.Motors.M1, motor.Dir.CCW, speed)
     motor.motor_run(motor.Motors.M2, motor.Dir.CW, speed)
@@ -225,6 +266,9 @@ def go_backward(speed: number):
         . # # # .
         . . # . .
     """)
+    if length > 0:
+        basic.pause(length * 1500)
+
 
 def turn_right(speed: number, angle: number = None):
     engine_stop()

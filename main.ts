@@ -1,6 +1,8 @@
 let current_is_run = 0
 let current_direction = 3
 let current_speed = 40
+let go_out_spot_steps = ["1", "l"]
+let go_in_spot_steps = ["l", "-1"]
 let current_steps = [""]
 let finished_steps = [""]
 //  ========================================
@@ -62,6 +64,7 @@ radio.onReceivedValue(function on_received_value(name: string, value: number) {
 function start_delivery(path: string) {
     
     current_steps = _py.py_string_split(path, ",")
+    go_out_spot()
     
 }
 
@@ -84,6 +87,10 @@ function continue_delivery() {
     let index = 0
     current_steps.removeElement("")
     finished_steps.removeElement("")
+    if (current_steps.length == 0) {
+        return
+    }
+    
     for (let step of current_steps) {
         basic.showString(step)
         if (parseInt(step) > 0) {
@@ -109,11 +116,14 @@ function continue_delivery() {
         current_steps = current_steps.slice(index, current_steps.length)
     }
     
+    go_back_home()
     
 }
 
 function go_back_home() {
-    let finished_steps: string[];
+    
+    
+    
     if (current_steps.length > 0 || finished_steps.length == 0) {
         return
     }
@@ -136,7 +146,51 @@ function go_back_home() {
         
         engine_stop()
     }
+    go_in_spot()
     _py.py_array_clear(finished_steps)
+    
+}
+
+function go_out_spot() {
+    
+    for (let step of go_out_spot_steps) {
+        basic.showString(step)
+        if (parseInt(step) > 0) {
+            go_forward(current_speed, parseInt(step))
+        }
+        
+        if (parseInt(step) < 0) {
+            go_backward(current_speed, parseInt(step))
+        } else if (step == "r") {
+            turn_right(current_speed, 90)
+        } else if (step == "l") {
+            turn_left(current_speed, 90)
+        }
+        
+        engine_stop()
+    }
+    
+}
+
+function go_in_spot() {
+    
+    for (let step of go_in_spot_steps) {
+        basic.showString(step)
+        if (parseInt(step) > 0) {
+            go_forward(current_speed, parseInt(step))
+        }
+        
+        if (parseInt(step) < 0) {
+            go_backward(current_speed, parseInt(step))
+        } else if (step == "r") {
+            turn_right(current_speed, 90)
+        } else if (step == "l") {
+            turn_left(current_speed, 90)
+        }
+        
+        engine_stop()
+    }
+    
 }
 
 //  ========================================
@@ -145,8 +199,8 @@ function go_back_home() {
 input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
     
     
-    current_steps = [""]
-    finished_steps = [""]
+    _py.py_array_clear(current_steps)
+    _py.py_array_clear(finished_steps)
     
 })
 input.onButtonPressed(Button.A, function on_button_pressed_a() {
@@ -252,7 +306,7 @@ function go_forward(speed: number, length: number = 0) {
     
 }
 
-function go_backward(speed: number) {
+function go_backward(speed: number, length: number = 0) {
     engine_stop()
     motor.MotorRun(motor.Motors.M1, motor.Dir.CCW, speed)
     motor.MotorRun(motor.Motors.M2, motor.Dir.CW, speed)
@@ -265,6 +319,10 @@ function go_backward(speed: number) {
         . # # # .
         . . # . .
     `)
+    if (length > 0) {
+        basic.pause(length * 1500)
+    }
+    
 }
 
 function turn_right(speed: number, angle: number = null) {
