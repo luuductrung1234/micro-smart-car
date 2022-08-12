@@ -238,10 +238,8 @@ def engine_run(direction: number, speed: number):
 
 def go_forward(speed: number, length: number = 0):
     engine_stop()
-    motor.motor_run(motor.Motors.M1, motor.Dir.CW, speed)
-    motor.motor_run(motor.Motors.M2, motor.Dir.CCW, speed)
-    motor.motor_run(motor.Motors.M3, motor.Dir.CW, speed)
-    motor.motor_run(motor.Motors.M4, motor.Dir.CCW, speed)
+    rekabit.run_motor(MotorChannel.M1, MotorDirection.FORWARD, speed)
+    rekabit.run_motor(MotorChannel.M2, MotorDirection.FORWARD, speed)
     basic.show_leds("""
         . . # . .
         . # # # .
@@ -255,10 +253,8 @@ def go_forward(speed: number, length: number = 0):
 
 def go_backward(speed: number, length: number = 0):
     engine_stop()
-    motor.motor_run(motor.Motors.M1, motor.Dir.CCW, speed)
-    motor.motor_run(motor.Motors.M2, motor.Dir.CW, speed)
-    motor.motor_run(motor.Motors.M3, motor.Dir.CCW, speed)
-    motor.motor_run(motor.Motors.M4, motor.Dir.CW, speed)
+    rekabit.run_motor(MotorChannel.M1, MotorDirection.BACKWARD, speed)
+    rekabit.run_motor(MotorChannel.M2, MotorDirection.BACKWARD, speed)
     basic.show_leds("""
         . . # . .
         . . # . .
@@ -272,8 +268,7 @@ def go_backward(speed: number, length: number = 0):
 
 def turn_right(speed: number, angle: number = None):
     engine_stop()
-    motor.motor_run(motor.Motors.M1, motor.Dir.CW, speed + 60)
-    motor.motor_run(motor.Motors.M2, motor.Dir.CCW, speed + 60)
+    rekabit.run_motor(MotorChannel.M2, MotorDirection.FORWARD, speed)
     basic.show_leds("""
         . . # . .
         . . . # .
@@ -286,8 +281,7 @@ def turn_right(speed: number, angle: number = None):
 
 def turn_left(speed: number, angle: number = None):
     engine_stop()
-    motor.motor_run(motor.Motors.M3, motor.Dir.CW, speed + 60)
-    motor.motor_run(motor.Motors.M4, motor.Dir.CCW, speed + 60)
+    rekabit.run_motor(MotorChannel.M1, MotorDirection.FORWARD, speed)
     basic.show_leds("""
         . . # . .
         . # . . .
@@ -299,10 +293,8 @@ def turn_left(speed: number, angle: number = None):
         pause(angle * 6)
         
 def engine_stop():
-    motor.motor_run(motor.Motors.M1, motor.Dir.CCW, 0)
-    motor.motor_run(motor.Motors.M2, motor.Dir.CW, 0)
-    motor.motor_run(motor.Motors.M3, motor.Dir.CCW, 0)
-    motor.motor_run(motor.Motors.M4, motor.Dir.CW, 0)
+    rekabit.brake_motor(MotorChannel.M1)
+    rekabit.brake_motor(MotorChannel.M2)
     pass
 
 def turn_with_compass(expected_degrees):

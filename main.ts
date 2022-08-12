@@ -289,10 +289,8 @@ function engine_run(direction: number, speed: number) {
 
 function go_forward(speed: number, length: number = 0) {
     engine_stop()
-    motor.MotorRun(motor.Motors.M1, motor.Dir.CW, speed)
-    motor.MotorRun(motor.Motors.M2, motor.Dir.CCW, speed)
-    motor.MotorRun(motor.Motors.M3, motor.Dir.CW, speed)
-    motor.MotorRun(motor.Motors.M4, motor.Dir.CCW, speed)
+    rekabit.runMotor(MotorChannel.M1, MotorDirection.Forward, speed)
+    rekabit.runMotor(MotorChannel.M2, MotorDirection.Forward, speed)
     basic.showLeds(`
         . . # . .
         . # # # .
@@ -308,10 +306,8 @@ function go_forward(speed: number, length: number = 0) {
 
 function go_backward(speed: number, length: number = 0) {
     engine_stop()
-    motor.MotorRun(motor.Motors.M1, motor.Dir.CCW, speed)
-    motor.MotorRun(motor.Motors.M2, motor.Dir.CW, speed)
-    motor.MotorRun(motor.Motors.M3, motor.Dir.CCW, speed)
-    motor.MotorRun(motor.Motors.M4, motor.Dir.CW, speed)
+    rekabit.runMotor(MotorChannel.M1, MotorDirection.Backward, speed)
+    rekabit.runMotor(MotorChannel.M2, MotorDirection.Backward, speed)
     basic.showLeds(`
         . . # . .
         . . # . .
@@ -327,8 +323,7 @@ function go_backward(speed: number, length: number = 0) {
 
 function turn_right(speed: number, angle: number = null) {
     engine_stop()
-    motor.MotorRun(motor.Motors.M1, motor.Dir.CW, speed + 60)
-    motor.MotorRun(motor.Motors.M2, motor.Dir.CCW, speed + 60)
+    rekabit.runMotor(MotorChannel.M2, MotorDirection.Forward, speed)
     basic.showLeds(`
         . . # . .
         . . . # .
@@ -344,8 +339,7 @@ function turn_right(speed: number, angle: number = null) {
 
 function turn_left(speed: number, angle: number = null) {
     engine_stop()
-    motor.MotorRun(motor.Motors.M3, motor.Dir.CW, speed + 60)
-    motor.MotorRun(motor.Motors.M4, motor.Dir.CCW, speed + 60)
+    rekabit.runMotor(MotorChannel.M1, MotorDirection.Forward, speed)
     basic.showLeds(`
         . . # . .
         . # . . .
@@ -360,10 +354,8 @@ function turn_left(speed: number, angle: number = null) {
 }
 
 function engine_stop() {
-    motor.MotorRun(motor.Motors.M1, motor.Dir.CCW, 0)
-    motor.MotorRun(motor.Motors.M2, motor.Dir.CW, 0)
-    motor.MotorRun(motor.Motors.M3, motor.Dir.CCW, 0)
-    motor.MotorRun(motor.Motors.M4, motor.Dir.CW, 0)
+    rekabit.brakeMotor(MotorChannel.M1)
+    rekabit.brakeMotor(MotorChannel.M2)
     
 }
 
