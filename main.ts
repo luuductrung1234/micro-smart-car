@@ -133,7 +133,7 @@ function go_back_home() {
     basic.showIcon(IconNames.Yes)
     turn_right(current_speed, 90)
     turn_right(current_speed, 90)
-    finished_steps = _py.slice(finished_steps, null, null, -1)
+    finished_steps.reverse()
     for (let step of finished_steps) {
         basic.showString(step)
         if (parseInt(step) > 0) {

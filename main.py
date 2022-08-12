@@ -112,7 +112,7 @@ def go_back_home():
     basic.show_icon(IconNames.YES)
     turn_right(current_speed, 90)
     turn_right(current_speed, 90)
-    finished_steps = finished_steps[::-1]
+    finished_steps.reverse()
     for step in finished_steps:
         basic.show_string(step)
         if int(step) > 0:
