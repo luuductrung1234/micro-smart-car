@@ -5,22 +5,15 @@
         "core": "*",
         "radio": "*",
         "microphone": "*",
-        "servo": "*",
-        "microturtle": "github:microsoft/pxt-microturtle#v0.0.9",
-        "radio-broadcast": "*",
-        "pxt-sonar": "github:microsoft/pxt-sonar#v0.0.5",
-        "Grove": "github:seeed-studio/pxt-grove#v0.5.0",
-        "pxt-rekabit": "github:cytrontechnologies/pxt-rekabit#v1.2.2"
+        "pxt-rekabit": "github:cytrontechnologies/pxt-rekabit#v1.2.2",
+        "custom-esp8266": "github:luuductrung1234/micro-smart-esp8266#master"
     },
     "files": [
-        "main.blocks",
-        "main.ts",
         "README.md",
-        "main.py"
+        "main.py",
+        "main.ts"
     ],
-    "testFiles": [
-        "test.ts"
-    ],
+    "testFiles": [],
     "targetVersions": {
         "target": "5.0.12",
         "targetId": "microbit"
