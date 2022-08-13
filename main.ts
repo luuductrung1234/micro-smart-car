@@ -1,6 +1,6 @@
 let current_is_run = 0
 let current_direction = 3
-let current_speed = 40
+let current_speed = 100
 let go_out_spot_steps = ["1", "l"]
 let go_in_spot_steps = ["l", "-1"]
 let current_steps = [""]
@@ -147,7 +147,7 @@ function go_back_home() {
         engine_stop()
     }
     go_in_spot()
-    _py.py_array_clear(finished_steps)
+    finished_steps = [""]
     
 }
 
@@ -181,7 +181,7 @@ function go_in_spot() {
         }
         
         if (parseInt(step) < 0) {
-            go_backward(current_speed, parseInt(step))
+            go_backward(current_speed, parseInt(step) * -1)
         } else if (step == "r") {
             turn_right(current_speed, 90)
         } else if (step == "l") {
@@ -199,8 +199,8 @@ function go_in_spot() {
 input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
     
     
-    _py.py_array_clear(current_steps)
-    _py.py_array_clear(finished_steps)
+    current_steps = [""]
+    finished_steps = [""]
     
 })
 input.onButtonPressed(Button.A, function on_button_pressed_a() {
@@ -289,10 +289,8 @@ function engine_run(direction: number, speed: number) {
 
 function go_forward(speed: number, length: number = 0) {
     engine_stop()
-    motor.MotorRun(motor.Motors.M1, motor.Dir.CW, speed)
+    motor.MotorRun(motor.Motors.M1, motor.Dir.CCW, speed)
     motor.MotorRun(motor.Motors.M2, motor.Dir.CCW, speed)
-    motor.MotorRun(motor.Motors.M3, motor.Dir.CW, speed)
-    motor.MotorRun(motor.Motors.M4, motor.Dir.CCW, speed)
     basic.showLeds(`
         . . # . .
         . # # # .
@@ -308,10 +306,8 @@ function go_forward(speed: number, length: number = 0) {
 
 function go_backward(speed: number, length: number = 0) {
     engine_stop()
-    motor.MotorRun(motor.Motors.M1, motor.Dir.CCW, speed)
+    motor.MotorRun(motor.Motors.M1, motor.Dir.CW, speed)
     motor.MotorRun(motor.Motors.M2, motor.Dir.CW, speed)
-    motor.MotorRun(motor.Motors.M3, motor.Dir.CCW, speed)
-    motor.MotorRun(motor.Motors.M4, motor.Dir.CW, speed)
     basic.showLeds(`
         . . # . .
         . . # . .
@@ -327,8 +323,7 @@ function go_backward(speed: number, length: number = 0) {
 
 function turn_right(speed: number, angle: number = null) {
     engine_stop()
-    motor.MotorRun(motor.Motors.M1, motor.Dir.CW, speed + 60)
-    motor.MotorRun(motor.Motors.M2, motor.Dir.CCW, speed + 60)
+    motor.MotorRun(motor.Motors.M1, motor.Dir.CCW, speed + 60)
     basic.showLeds(`
         . . # . .
         . . . # .
@@ -344,8 +339,7 @@ function turn_right(speed: number, angle: number = null) {
 
 function turn_left(speed: number, angle: number = null) {
     engine_stop()
-    motor.MotorRun(motor.Motors.M3, motor.Dir.CW, speed + 60)
-    motor.MotorRun(motor.Motors.M4, motor.Dir.CCW, speed + 60)
+    motor.MotorRun(motor.Motors.M2, motor.Dir.CCW, speed + 60)
     basic.showLeds(`
         . . # . .
         . # . . .
@@ -360,106 +354,8 @@ function turn_left(speed: number, angle: number = null) {
 }
 
 function engine_stop() {
-    motor.MotorRun(motor.Motors.M1, motor.Dir.CCW, 0)
-    motor.MotorRun(motor.Motors.M2, motor.Dir.CW, 0)
-    motor.MotorRun(motor.Motors.M3, motor.Dir.CCW, 0)
-    motor.MotorRun(motor.Motors.M4, motor.Dir.CW, 0)
+    motor.motorStop(motor.Motors.M1)
+    motor.motorStop(motor.Motors.M2)
     
-}
-
-function turn_with_compass(expected_degrees: any) {
-    let opposit: number;
-    let start_degrees = input.compassHeading()
-    let end_degrees = input.compassHeading()
-    // basic.show_number(start_degrees)
-    // basic.show_icon(IconNames.HAPPY)
-    while (true) {
-        if (start_degrees <= 90) {
-            opposit = start_degrees + 180
-            if (end_degrees >= 270 && 360 - end_degrees + start_degrees >= expected_degrees) {
-                // basic.show_string("L")
-                break
-            }
-            
-            if (end_degrees >= 0 && start_degrees - end_degrees >= expected_degrees) {
-                // basic.show_string("L")
-                break
-            }
-            
-            if (end_degrees > opposit && end_degrees < 270) {
-                // basic.show_string("L")
-                break
-            }
-            
-            if (end_degrees <= 180 && end_degrees - start_degrees >= expected_degrees) {
-                // basic.show_string("R")
-                break
-            }
-            
-            if (end_degrees < opposit && end_degrees > 180) {
-                // basic.show_string("R")
-                break
-            }
-            
-        } else if (start_degrees <= 180) {
-            opposit = start_degrees + 180
-            if (start_degrees - end_degrees >= expected_degrees) {
-                // basic.show_string("L")
-                break
-            }
-            
-            if (end_degrees - start_degrees >= expected_degrees) {
-                // basic.show_string("R")
-                break
-            }
-            
-        } else if (start_degrees <= 270) {
-            opposit = start_degrees - 180
-            if (start_degrees - end_degrees >= expected_degrees) {
-                // basic.show_string("L")
-                break
-            }
-            
-            if (end_degrees - start_degrees >= expected_degrees) {
-                // basic.show_string("R")
-                break
-            }
-            
-            if (end_degrees >= 0 && end_degrees <= 90 && end_degrees < opposit) {
-                // basic.show_string("L")
-                break
-            }
-            
-            if (end_degrees >= 0 && end_degrees <= 90 && end_degrees > opposit) {
-                // basic.show_string("R")
-                break
-            }
-            
-        } else if (start_degrees <= 360) {
-            opposit = start_degrees - 180
-            if (end_degrees >= 180 && start_degrees - end_degrees >= expected_degrees) {
-                // basic.show_string("L")
-                break
-            }
-            
-            if (end_degrees <= 90 && 360 - start_degrees + end_degrees >= expected_degrees) {
-                // basic.show_string("R")
-                break
-            }
-            
-            if (end_degrees > opposit && end_degrees < 180) {
-                // basic.show_string("L")
-                break
-            }
-            
-            if (end_degrees < opposit && end_degrees > 90) {
-                // basic.show_string("R")
-                break
-            }
-            
-        }
-        
-        end_degrees = input.compassHeading()
-    }
 }
 
