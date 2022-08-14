@@ -1,7 +1,7 @@
 let current_is_run = 0
 let current_direction = 3
 let current_speed = 100
-let go_out_spot_steps = ["1", "l"]
+let go_out_spot_steps = "1,l,"
 let go_in_spot_steps = ["l", "-1"]
 let current_steps = [""]
 let finished_steps = [""]
@@ -24,12 +24,10 @@ basic.forever(function on_forever() {
 //  ========================================
 radio.onReceivedString(function on_received_string(receivedString: string) {
     if (receivedString.indexOf("s:") >= 0) {
-        basic.showString("a")
         start_delivery(_py.py_string_split(receivedString, ":")[1])
     }
     
     if (receivedString.indexOf("a:") >= 0) {
-        basic.showString("b")
         update_delivery(_py.py_string_split(receivedString, ":")[1], _py.py_string_split(receivedString, ":")[2])
     }
     
@@ -63,8 +61,12 @@ radio.onReceivedValue(function on_received_value(name: string, value: number) {
 //  ========================================
 function start_delivery(path: string) {
     
+    
+    path = go_out_spot_steps + path
+    // basic.show_string(path)
     current_steps = _py.py_string_split(path, ",")
-    go_out_spot()
+    finished_steps = []
+    basic.showIcon(IconNames.Yes)
     
 }
 
@@ -77,6 +79,7 @@ function update_delivery(old_step: string, new_path: string) {
     let new_steps = _py.py_string_split(new_path, ",")
     current_steps.removeElement(old_step)
     current_steps = new_steps.concat(current_steps)
+    basic.showIcon(IconNames.Yes)
     
 }
 
@@ -85,12 +88,12 @@ function continue_delivery() {
     
     
     let index = 0
-    current_steps.removeElement("")
-    finished_steps.removeElement("")
     if (current_steps.length == 0) {
         return
     }
     
+    current_steps.removeElement("")
+    finished_steps.removeElement("")
     for (let step of current_steps) {
         basic.showString(step)
         if (parseInt(step) > 0) {
@@ -107,16 +110,21 @@ function continue_delivery() {
             index += 1
         } else {
             radio.sendString("r:" + step)
+            pause(2000)
             break
         }
         
         engine_stop()
     }
+    if (index > current_steps.length) {
+        current_steps = []
+    }
+    
     if (index > 0) {
         current_steps = current_steps.slice(index, current_steps.length)
     }
     
-    go_back_home()
+    // go_back_home()
     
 }
 
@@ -148,27 +156,6 @@ function go_back_home() {
     }
     go_in_spot()
     finished_steps = [""]
-    
-}
-
-function go_out_spot() {
-    
-    for (let step of go_out_spot_steps) {
-        basic.showString(step)
-        if (parseInt(step) > 0) {
-            go_forward(current_speed, parseInt(step))
-        }
-        
-        if (parseInt(step) < 0) {
-            go_backward(current_speed, parseInt(step))
-        } else if (step == "r") {
-            turn_right(current_speed, 90)
-        } else if (step == "l") {
-            turn_left(current_speed, 90)
-        }
-        
-        engine_stop()
-    }
     
 }
 
@@ -299,7 +286,7 @@ function go_forward(speed: number, length: number = 0) {
         . . # . .
     `)
     if (length > 0) {
-        basic.pause(length * 1500)
+        basic.pause(length * 300)
     }
     
 }
@@ -316,7 +303,7 @@ function go_backward(speed: number, length: number = 0) {
         . . # . .
     `)
     if (length > 0) {
-        basic.pause(length * 1500)
+        basic.pause(length * 300)
     }
     
 }
@@ -325,14 +312,14 @@ function turn_right(speed: number, angle: number = null) {
     engine_stop()
     motor.MotorRun(motor.Motors.M1, motor.Dir.CCW, speed + 60)
     basic.showLeds(`
-        . . # . .
-        . . . # .
-        # # # # #
-        . . . # .
-        . . # . .
-    `)
+            . . # . .
+            . # . . .
+            # # # # #
+            . # . . .
+            . . # . .
+        `)
     if (angle !== null) {
-        pause(angle * 5)
+        pause(angle * 8)
     }
     
 }
@@ -341,14 +328,14 @@ function turn_left(speed: number, angle: number = null) {
     engine_stop()
     motor.MotorRun(motor.Motors.M2, motor.Dir.CCW, speed + 60)
     basic.showLeds(`
-        . . # . .
-        . # . . .
-        # # # # #
-        . # . . .
-        . . # . .
-    `)
+            . . # . .
+            . . . # .
+            # # # # #
+            . . . # .
+            . . # . .
+        `)
     if (angle !== null) {
-        pause(angle * 6)
+        pause(angle * 8)
     }
     
 }

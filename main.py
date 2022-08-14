@@ -1,7 +1,7 @@
 current_is_run = 0
 current_direction = 3
 current_speed = 100
-go_out_spot_steps = ["1", "l"]
+go_out_spot_steps = "1,l,"
 go_in_spot_steps = ["l", "-1"]
 current_steps = [""]
 finished_steps = [""]
@@ -40,10 +40,8 @@ def on_received_value(name, value):
 
 def on_received_string(receivedString):
     if "s:" in receivedString:
-        basic.show_string("a")
         start_delivery(receivedString.split(":")[1])
     if "a:" in receivedString:
-        basic.show_string("b")
         update_delivery(receivedString.split(":")[1], receivedString.split(":")[2])
     pass
 
@@ -56,8 +54,12 @@ radio.on_received_value(on_received_value)
 
 def start_delivery(path: string):
     global current_steps
+    global finished_steps
+    path = go_out_spot_steps + path
+    #basic.show_string(path)
     current_steps = path.split(",")
-    go_out_spot()
+    finished_steps = []
+    basic.show_icon(IconNames.YES)
     pass
 
 def update_delivery(old_step: string, new_path: string):
@@ -67,6 +69,7 @@ def update_delivery(old_step: string, new_path: string):
     new_steps = new_path.split(",")
     current_steps.remove_element(old_step)
     current_steps = new_steps + current_steps
+    basic.show_icon(IconNames.YES)
     pass
 
 def continue_delivery():
@@ -74,10 +77,10 @@ def continue_delivery():
     global finished_steps
     global current_speed
     index = 0
-    current_steps.remove_element("")
-    finished_steps.remove_element("")
     if current_steps.length == 0:
         return
+    current_steps.remove_element("")
+    finished_steps.remove_element("")
     for step in current_steps:
         basic.show_string(step)
         if int(step) > 0:
@@ -94,11 +97,14 @@ def continue_delivery():
             index += 1
         else:
             radio.send_string("r:" + step)
+            pause(2000)
             break
         engine_stop()
+    if index > current_steps.length:
+        current_steps = []
     if index > 0:
         current_steps = current_steps[index:current_steps.length]
-    go_back_home()
+    #go_back_home()
     pass
 
 def go_back_home():
@@ -124,21 +130,6 @@ def go_back_home():
         engine_stop()
     go_in_spot()
     finished_steps = [""]
-    pass
-
-def go_out_spot():
-    global go_out_spot_steps
-    for step in go_out_spot_steps:
-        basic.show_string(step)
-        if int(step) > 0:
-            go_forward(current_speed, int(step))
-        if int(step) < 0:
-            go_backward(current_speed, int(step))
-        elif step == "r":
-            turn_right(current_speed, 90)
-        elif step == "l":
-            turn_left(current_speed, 90)
-        engine_stop()
     pass
 
 def go_in_spot():
@@ -248,7 +239,7 @@ def go_forward(speed: number, length: number = 0):
         . . # . .
     """)
     if length > 0:
-        basic.pause(length * 1500)
+        basic.pause(length * 300)
 
 
 def go_backward(speed: number, length: number = 0):
@@ -263,34 +254,34 @@ def go_backward(speed: number, length: number = 0):
         . . # . .
     """)
     if length > 0:
-        basic.pause(length * 1500)
+        basic.pause(length * 300)
 
 
 def turn_right(speed: number, angle: number = None):
     engine_stop()
     motor.motor_run(motor.Motors.M1, motor.Dir.CCW, speed + 60)
     basic.show_leds("""
-        . . # . .
-        . . . # .
-        # # # # #
-        . . . # .
-        . . # . .
-    """)
+            . . # . .
+            . # . . .
+            # # # # #
+            . # . . .
+            . . # . .
+        """)
     if angle is not None:
-        pause(angle * 5)
+        pause(angle * 8)
 
 def turn_left(speed: number, angle: number = None):
     engine_stop()
     motor.motor_run(motor.Motors.M2, motor.Dir.CCW, speed + 60)
     basic.show_leds("""
-        . . # . .
-        . # . . .
-        # # # # #
-        . # . . .
-        . . # . .
-    """)
+            . . # . .
+            . . . # .
+            # # # # #
+            . . . # .
+            . . # . .
+        """)
     if angle is not None:
-        pause(angle * 6)
+        pause(angle * 8)
         
 def engine_stop():
     motor.motor_stop(motor.Motors.M1)
