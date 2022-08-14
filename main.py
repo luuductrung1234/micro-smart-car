@@ -268,7 +268,7 @@ def turn_right(speed: number, angle: number = None):
             . . # . .
         """)
     if angle is not None:
-        pause(angle * 8)
+        pause(angle * 7)
 
 def turn_left(speed: number, angle: number = None):
     engine_stop()
@@ -281,7 +281,7 @@ def turn_left(speed: number, angle: number = None):
             . . # . .
         """)
     if angle is not None:
-        pause(angle * 8)
+        pause(angle * 9)
         
 def engine_stop():
     motor.motor_stop(motor.Motors.M1)
