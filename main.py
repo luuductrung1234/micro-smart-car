@@ -2,7 +2,6 @@ current_is_run = 0
 current_direction = 3
 current_speed = 100
 go_out_spot_steps = "1,l,"
-go_in_spot_steps = ["l", "-1"]
 current_steps = [""]
 finished_steps = [""]
 
@@ -82,7 +81,7 @@ def continue_delivery():
     current_steps.remove_element("")
     finished_steps.remove_element("")
     for step in current_steps:
-        basic.show_string(step)
+        basic.pause(1500)
         if int(step) > 0:
             go_forward(current_speed, int(step))
             finished_steps.push(step)
@@ -97,14 +96,14 @@ def continue_delivery():
             index += 1
         else:
             radio.send_string("r:" + step)
-            pause(2000)
+            pause(1000)
             break
         engine_stop()
     if index > current_steps.length:
         current_steps = []
     if index > 0:
         current_steps = current_steps[index:current_steps.length]
-    #go_back_home()
+    go_back_home()
     pass
 
 def go_back_home():
@@ -116,43 +115,38 @@ def go_back_home():
     basic.show_string("...")
     basic.pause(5000)
     basic.show_icon(IconNames.YES)
-    turn_right(current_speed, 90)
-    turn_right(current_speed, 90)
-    finished_steps = finished_steps[::-1]
+    prepare_path_go_home()
+    turn_right(current_speed, 175)
     for step in finished_steps:
-        basic.show_string(step)
-        if int(step) > 0:
-            go_forward(current_speed, int(step))
-        elif step == "r":
-            turn_left(current_speed, 90)
-        elif step == "l":
-            turn_right(current_speed, 90)
-        engine_stop()
-    go_in_spot()
-    finished_steps = [""]
-    pass
-
-def go_in_spot():
-    global go_in_spot_steps
-    for step in go_in_spot_steps:
-        basic.show_string(step)
+        basic.pause(1500)
         if int(step) > 0:
             go_forward(current_speed, int(step))
         if int(step) < 0:
             go_backward(current_speed, int(step) * -1)
         elif step == "r":
-            turn_right(current_speed, 90)
-        elif step == "l":
             turn_left(current_speed, 90)
+        elif step == "l":
+            turn_right(current_speed, 90)
         engine_stop()
+    finished_steps = []
+    radio.send_string("f:")
     pass
+
+def prepare_path_go_home():
+    global finished_steps
+    finished_steps = finished_steps[::-1]
+    finished_steps.pop(finished_steps.length - 1)
+    finished_steps.pop(finished_steps.length - 1)
+    finished_steps.push("r")
+    finished_steps.push("-1")
+
 
 # ========================================
 # BUTTON
 # ========================================
 
 def on_button_pressed_a():
-    start_delivery("r,l")
+    start_delivery("2,l,2,r,2,u2")
     pass
 
 def on_button_pressed_b():
@@ -231,57 +225,35 @@ def go_forward(speed: number, length: number = 0):
     engine_stop()
     motor.motor_run(motor.Motors.M1, motor.Dir.CCW, speed)
     motor.motor_run(motor.Motors.M2, motor.Dir.CCW, speed)
-    basic.show_leds("""
-        . . # . .
-        . # # # .
-        # . # . #
-        . . # . .
-        . . # . .
-    """)
     if length > 0:
-        basic.pause(length * 300)
+        basic.pause(length * 900)
+    engine_stop()
 
 
 def go_backward(speed: number, length: number = 0):
     engine_stop()
     motor.motor_run(motor.Motors.M1, motor.Dir.CW, speed)
     motor.motor_run(motor.Motors.M2, motor.Dir.CW, speed)
-    basic.show_leds("""
-        . . # . .
-        . . # . .
-        # . # . #
-        . # # # .
-        . . # . .
-    """)
     if length > 0:
-        basic.pause(length * 300)
+        basic.pause(length * 900)
+    engine_stop()
 
 
 def turn_right(speed: number, angle: number = None):
     engine_stop()
     motor.motor_run(motor.Motors.M1, motor.Dir.CCW, speed + 60)
-    basic.show_leds("""
-            . . # . .
-            . # . . .
-            # # # # #
-            . # . . .
-            . . # . .
-        """)
+    motor.motor_run(motor.Motors.M2, motor.Dir.CW, speed + 60)
     if angle is not None:
-        pause(angle * 7)
+        pause(angle * 5.99)
+    engine_stop()
 
 def turn_left(speed: number, angle: number = None):
     engine_stop()
     motor.motor_run(motor.Motors.M2, motor.Dir.CCW, speed + 60)
-    basic.show_leds("""
-            . . # . .
-            . . . # .
-            # # # # #
-            . . . # .
-            . . # . .
-        """)
+    motor.motor_run(motor.Motors.M1, motor.Dir.CW, speed + 60)
     if angle is not None:
-        pause(angle * 9)
+        pause(angle * 5.99)
+    engine_stop()
         
 def engine_stop():
     motor.motor_stop(motor.Motors.M1)
